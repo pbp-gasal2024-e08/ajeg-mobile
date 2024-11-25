@@ -211,3 +211,6 @@ Pelanggan yang sudah terautentikasi dapat menghapus produk yang sudah ada dari w
 - _Tambah ke wishlist_: pelanggan menambahkan produk ke wishlist
 - _Lihat wishlist_: pelanggan melihat isi dari wishlist pribadi mereka
 - _Hapus dari wishlist_: pelanggan menghapus produk tertentu dari wishlist mereka
+
+## Alur Integrasi
+Secara umum, aplikasi Flutter dapat dianggap sebagai sebuah aplikasi standalone yang memanggil API Ajeg (dari deployment web app). Setiap function yang mengembalikan suatu response dalam bentuk JSON dapat digunakan untuk melakukan data fetching. Karena struktur request HTTP yang konsisten, melakukan update terhadap data pada database dapat dilakukan dengan membuat POST request yang sesuai dengan expected body pada view function. 
