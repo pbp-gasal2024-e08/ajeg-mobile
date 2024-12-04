@@ -1,3 +1,5 @@
+import 'package:ajeg_mobile/screens/home.dart';
+import 'package:ajeg_mobile/widgets/left_drawer.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -9,10 +11,19 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
+        appBar: AppBar(
+          backgroundColor: Colors.deepOrange,
+          title: const Text(
+            "Ajeg",
+            style: TextStyle(color: Colors.black),
+          ),
+          iconTheme: const IconThemeData(color: Colors.black),
+        ),
+        drawer: LeftDrawer(),
+        body: const Center(
+          child: HomeScreen(),
         ),
       ),
     );
