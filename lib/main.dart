@@ -1,4 +1,4 @@
-import 'package:ajeg_mobile/screens/home.dart';
+import 'package:ajeg_mobile/homepage/screens/home.dart';
 import 'package:ajeg_mobile/widgets/left_drawer.dart';
 import 'package:flutter/material.dart';
 
@@ -21,7 +21,7 @@ class MainApp extends StatelessWidget {
           ),
           iconTheme: const IconThemeData(color: Colors.black),
         ),
-        drawer: LeftDrawer(),
+        drawer: const LeftDrawer(),
         body: const Center(
           child: HomeScreen(),
         ),
