@@ -67,4 +67,6 @@ class FloatingPanel extends StatelessWidget {
       ),
     );
   }
+
+  
 }
