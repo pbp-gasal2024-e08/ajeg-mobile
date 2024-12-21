@@ -1,3 +1,4 @@
+import 'package:ajeg_mobile/screens/list_voucher.dart';
 import 'package:flutter/material.dart';
 
 class LeftDrawer extends StatelessWidget {
@@ -35,7 +36,12 @@ class LeftDrawer extends StatelessWidget {
             ),
           ),
           InkWell(
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const VoucherPage()),
+              );
+            },
             child: const ListTile(
               leading: Icon(Icons.percent),
               title: Text('Vouchers'),
