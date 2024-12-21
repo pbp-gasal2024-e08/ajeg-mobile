@@ -1,4 +1,5 @@
 import 'package:ajeg_mobile/main.dart';
+import 'package:ajeg_mobile/screens/home.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 // import 'package:literasea_mobile/main.dart';
@@ -54,16 +55,16 @@ class _LoginPageState extends State<LoginPage> {
               padding: const EdgeInsets.symmetric(horizontal: 30),
               child: Column(
                 children: [
-                  Container(
-                    height: 64,
-                    decoration: const BoxDecoration(
-                      image: DecorationImage(
-                          image: AssetImage(
-                            'assets/images/logo.png',
-                          ),
-                          fit: BoxFit.scaleDown),
-                    ),
-                  ),
+                  // Container(
+                  //   height: 64,
+                  //   decoration: const BoxDecoration(
+                  //     image: DecorationImage(
+                  //         image: AssetImage(
+                  //           'assets/images/logo.png',
+                  //         ),
+                  //         fit: BoxFit.scaleDown),
+                  //   ),
+                  // ),
                   const SizedBox(
                     height: 20,
                   ),
@@ -110,7 +111,7 @@ class _LoginPageState extends State<LoginPage> {
                         _isLoading = true;
                       });
                       final response = await request.login(
-                          "localhost:8000/login",
+                          "http://localhost:8000/mobile-login/",
                           {
                             'username': username,
                             'password': password,
@@ -129,7 +130,7 @@ class _LoginPageState extends State<LoginPage> {
                           UserInfo.login(data);
                           navigator.pushAndRemoveUntil(
                             MaterialPageRoute(
-                              builder: (context) => const MainApp(),
+                              builder: (context) => const HomeScreen(),
                             ),
                             (route) => false,
                           );

@@ -1,4 +1,4 @@
-import 'package:ajeg_mobile/authentication/screens/login_new.dart';
+import 'package:ajeg_mobile/authentication/screens/login.dart';
 // import 'package:ajeg_mobile/screens/home.dart';
 import 'package:flutter/material.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
