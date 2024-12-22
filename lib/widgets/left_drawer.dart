@@ -1,6 +1,7 @@
 import 'package:ajeg_mobile/screens/list_voucher.dart';
 import 'package:ajeg_mobile/screens/qna_page.dart';
 import 'package:flutter/material.dart';
+import 'package:ajeg_mobile/screens/list_announcement.dart';
 
 class LeftDrawer extends StatelessWidget {
   const LeftDrawer({super.key});
@@ -30,7 +31,13 @@ class LeftDrawer extends StatelessWidget {
             ),
           ),
           InkWell(
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const AnnouncementPage()),
+              );
+            },
             child: const ListTile(
               leading: Icon(Icons.announcement),
               title: Text('Announcements'),
