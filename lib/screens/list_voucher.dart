@@ -3,12 +3,14 @@ import '../models/voucher.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
 
+// Widget untuk menampilkan informasi voucher
 class VoucherCard extends StatelessWidget {
   final String code;
   final String discount;
   final String expiryDate;
   final bool isClaimed;
 
+   // Konstruktor untuk menerima parameter
   const VoucherCard({
     super.key,
     required this.code,
@@ -19,16 +21,17 @@ class VoucherCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Mengambil CookieRequest dari provider untuk digunakan dalam HTTP request
     final request = context.watch<CookieRequest>();
     return Center(
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        padding: const EdgeInsets.all(16.0),
-        width: MediaQuery.of(context).size.width * 0.9, // 90% of screen width
+        padding: const EdgeInsets.all(16.0), // Padding di dalam kontainer
+        width: MediaQuery.of(context).size.width * 0.9, // Lebar 90% dari lebar layar
         decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(8.0),
-          boxShadow: [
+          color: Colors.white, //bg putih
+          borderRadius: BorderRadius.circular(8.0), // Sudut melengkung
+          boxShadow: [ // shadow di sekeliling kotak
             BoxShadow(
               color: Colors.grey.withAlpha(33),
               spreadRadius: 2,
@@ -39,19 +42,19 @@ class VoucherCard extends StatelessWidget {
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center, // Menjaga elemen di tengah secara vertikal
+          crossAxisAlignment: CrossAxisAlignment.center, // ter-center horizontal
           children: [
             // Discount section
             Container(
               padding:
                   const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
               decoration: BoxDecoration(
-                color: Colors.orange.withAlpha(33),
-                borderRadius: BorderRadius.circular(4.0),
+                color: Colors.orange.withAlpha(33), // Latar belakang oranye transparan
+                borderRadius: BorderRadius.circular(4.0), // Sudut melengkung
               ),
               child: Text(
-                discount,
+                discount,  // Display diskon
                 style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -80,7 +83,7 @@ class VoucherCard extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 12),
-            // Status section
+            // Status claim voucher
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -94,7 +97,7 @@ class VoucherCard extends StatelessWidget {
                   isClaimed ? 'Voucher verified' : 'Voucher not claimed',
                   style: TextStyle(
                     fontSize: 14,
-                    color: isClaimed ? Colors.orange : Colors.grey,
+                    color: isClaimed ? Colors.orange : Colors.grey, /// Warna teks tergantung claim nnt
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -106,7 +109,7 @@ class VoucherCard extends StatelessWidget {
               alignment: Alignment.center,
               child: ElevatedButton(
                 onPressed: isClaimed
-                    ? null
+                    ? null // Menonaktifkan tombol jika voucher sudah diklaim
                     : () async {
                         final response = await request.post(
                           "http://127.0.0.1:8000/vouchers/claim-voucher/$code/",
@@ -132,13 +135,13 @@ class VoucherCard extends StatelessWidget {
                         }
                       },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color.fromARGB(255, 241, 202, 144),
-                  disabledBackgroundColor: Colors.grey[300],
+                  backgroundColor: const Color.fromARGB(255, 241, 202, 144), // Warna bg button
+                  disabledBackgroundColor: Colors.grey[300], // Warna bg button if dinonaktifkan
                   padding:
                       const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                 ),
                 child: Text(
-                  isClaimed ? 'Claimed' : 'Claim Voucher',
+                  isClaimed ? 'Claimed' : 'Claim Voucher', // button teks
                   style: const TextStyle(fontSize: 16),
                 ),
               ),
@@ -150,6 +153,7 @@ class VoucherCard extends StatelessWidget {
   }
 }
 
+// tampilan semua informasi voucher
 class VoucherPage extends StatefulWidget {
   const VoucherPage({super.key});
 
@@ -158,6 +162,7 @@ class VoucherPage extends StatefulWidget {
 }
 
 class _VoucherPageState extends State<VoucherPage> {
+  // Fungsi untuk mengambil data voucher dari server
   Future<List<Voucher>> fetchVoucher(CookieRequest request) async {
     // TOD Ganti URL dan jangan lupa tambahkan trailing slash (/) di akhir URL!
     final response =
@@ -178,16 +183,16 @@ class _VoucherPageState extends State<VoucherPage> {
 
   @override
   Widget build(BuildContext context) {
-    final request = context.watch<CookieRequest>();
+    final request = context.watch<CookieRequest>();// ambil request dari provider
     return Scaffold(
       appBar: AppBar(
         title: const Text('My Discounts'),
       ),
-      body: FutureBuilder<List<Voucher>>(
+      body: FutureBuilder<List<Voucher>>( // Memanggil fungsi fetchVoucher untuk mendapatkan data voucher
         future: fetchVoucher(request),
         builder: (context, AsyncSnapshot<List<Voucher>> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator()); // Menunggu respons
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
             return const Center(
               child: Text(
@@ -200,15 +205,15 @@ class _VoucherPageState extends State<VoucherPage> {
             );
           } else {
             return ListView.builder(
-              itemCount: snapshot.data!.length,
+              itemCount: snapshot.data!.length, // Menampilkan jumlah voucher yang diterima
               itemBuilder: (_, index) {
                 final voucher = snapshot.data![index].fields;
                 return VoucherCard(
-                  code: voucher.code,
-                  discount: voucher.discount,
+                  code: voucher.code, // Kode voucher
+                  discount: voucher.discount, // Diskon voucher
                   expiryDate:
                       voucher.expiryDate.toLocal().toString().split(' ')[0],
-                  isClaimed: voucher.isClaimed,
+                  isClaimed: voucher.isClaimed, /// Status klaim voucher
                 );
               },
             );
