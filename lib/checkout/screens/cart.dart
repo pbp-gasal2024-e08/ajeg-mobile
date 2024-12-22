@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
-import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
+import 'package:pbp_django_auth/pbp_django_auth.dart';
 
 class CartScreen extends StatefulWidget {
   @override
@@ -11,39 +12,33 @@ class _CartScreenState extends State<CartScreen> {
   List<dynamic> cartItems = [];
   bool isLoading = true;
 
-  Future<void> fetchCart() async {
-    final url = Uri.parse('https://yourapi.com/get_cart_json'); // Replace with your endpoint
-    final response = await http.get(url);
-
+  Future<void> fetchCart(CookieRequest request) async {
+    final response = await request.get('http://localhost:8000/cart/get-cart/');
     if (response.statusCode == 200) {
+      final List<dynamic> data = (response.body);
       setState(() {
-        cartItems = json.decode(response.body);
+        cartItems = data;
         isLoading = false;
       });
     } else {
-      throw Exception('Failed to load cart');
+      throw Exception('Failed to fetch cart');
     }
   }
 
-  Future<Map<String, dynamic>> fetchProduct(int productId) async {
-    final url = Uri.parse('https://yourapi.com/get_product_json?product_id=$productId'); // Replace with your endpoint
-    final response = await http.get(url);
-
+  Future<Map<String, dynamic>> fetchProduct(CookieRequest request, int productId) async {
+    final response = await request.get('http://localhost:8000/product/get-product/$productId/');
     if (response.statusCode == 200) {
-      return json.decode(response.body);
+      return (response.body);
     } else {
       throw Exception('Failed to fetch product');
     }
   }
 
-  Future<void> removeCartItem(int productId) async {
-    final url = Uri.parse('https://yourapi.com/delete_cart'); // Replace with your endpoint
-    final response = await http.post(
-      url,
-      headers: {'Content-Type': 'application/json'},
-      body: json.encode({'product_id': productId}),
+  Future<void> removeCartItem(CookieRequest request, int productId) async {
+    final response = await request.post(
+      'http://localhost:8000/cart/remove-item/',
+      {'product_id': productId},
     );
-
     if (response.statusCode == 200) {
       setState(() {
         cartItems.removeWhere((item) => item['fields']['product'] == productId);
@@ -53,16 +48,13 @@ class _CartScreenState extends State<CartScreen> {
     }
   }
 
-  Future<void> updateCartQuantity(int productId, int quantity) async {
-    final url = Uri.parse('https://yourapi.com/update_cart_quantity'); // Replace with your endpoint
-    final response = await http.post(
-      url,
-      headers: {'Content-Type': 'application/json'},
-      body: json.encode({'product_id': productId, 'quantity': quantity}),
+  Future<void> updateCartQuantity(CookieRequest request, int productId, int quantity) async {
+    final response = await request.post(
+      'http://localhost:8000/cart/update-quantity/',
+      {'product_id': productId, 'quantity': quantity},
     );
-
     if (response.statusCode == 200) {
-      final updatedItem = json.decode(response.body);
+      final updatedItem = (response.body);
       setState(() {
         final index = cartItems.indexWhere((item) => item['fields']['product'] == productId);
         if (index != -1) {
@@ -82,17 +74,22 @@ class _CartScreenState extends State<CartScreen> {
   @override
   void initState() {
     super.initState();
-    fetchCart();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final request = Provider.of<CookieRequest>(context, listen: false);
+      fetchCart(request);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    final request = Provider.of<CookieRequest>(context);
+
     return Scaffold(
-      appBar: AppBar(title: Text('Cart')),
+      appBar: AppBar(title: const Text('Cart')),
       body: isLoading
-          ? Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator())
           : cartItems.isEmpty
-              ? Center(child: Text('Empty Cart'))
+              ? const Center(child: Text('Empty Cart'))
               : ListView.builder(
                   itemCount: cartItems.length,
                   itemBuilder: (context, index) {
@@ -100,17 +97,16 @@ class _CartScreenState extends State<CartScreen> {
                     final productId = cartItem['fields']['product'];
 
                     return FutureBuilder(
-                      future: fetchProduct(productId),
+                      future: fetchProduct(request, productId),
                       builder: (context, snapshot) {
                         if (snapshot.connectionState == ConnectionState.waiting) {
-                          return CircularProgressIndicator();
+                          return const CircularProgressIndicator();
                         } else if (snapshot.hasError) {
-                          return Text('Error loading product');
+                          return const Text('Error loading product');
                         } else {
                           final product = snapshot.data;
                           return Card(
                             child: ListTile(
-                              // leading: Image.network(product['fields']['imgurl']),
                               title: Text(product!['fields']['name']),
                               subtitle: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -119,10 +115,11 @@ class _CartScreenState extends State<CartScreen> {
                                   Row(
                                     children: [
                                       IconButton(
-                                        icon: Icon(Icons.remove),
+                                        icon: const Icon(Icons.remove),
                                         onPressed: () {
                                           if (cartItem['fields']['quantity'] > 1) {
                                             updateCartQuantity(
+                                              request,
                                               productId,
                                               cartItem['fields']['quantity'] - 1,
                                             );
@@ -134,6 +131,7 @@ class _CartScreenState extends State<CartScreen> {
                                         icon: const Icon(Icons.add),
                                         onPressed: () {
                                           updateCartQuantity(
+                                            request,
                                             productId,
                                             cartItem['fields']['quantity'] + 1,
                                           );
@@ -145,7 +143,7 @@ class _CartScreenState extends State<CartScreen> {
                               ),
                               trailing: IconButton(
                                 icon: const Icon(Icons.delete),
-                                onPressed: () => removeCartItem(productId),
+                                onPressed: () => removeCartItem(request, productId),
                               ),
                             ),
                           );

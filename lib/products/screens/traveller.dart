@@ -209,6 +209,8 @@ class ProductDetailsPage extends StatelessWidget {
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text('Added to cart')),
                 );
+                
+
               },
               child: const Text('Add to Cart'),
             ),
