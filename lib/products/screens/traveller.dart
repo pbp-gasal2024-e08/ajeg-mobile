@@ -44,7 +44,7 @@ class _ProductPageState extends State<ProductPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Product Catalog'),
-        backgroundColor: Colors.blue,
+        backgroundColor: Colors.orange,
       ),
       body: //_allProducts.isEmpty
           //     ? const Center(child: CircularProgressIndicator())
