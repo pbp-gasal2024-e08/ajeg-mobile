@@ -5,8 +5,13 @@ import 'package:flutter/material.dart';
 class TruncatedText extends StatelessWidget {
   final String text;
   final int maxLength;
+  final TextStyle? style;
 
-  const TruncatedText({super.key, required this.text, required this.maxLength});
+  const TruncatedText(
+      {super.key,
+      required this.text,
+      required this.maxLength,
+      required this.style});
 
   static String truncate(String text, int maxLength) {
     if (text.length > maxLength) {
@@ -18,6 +23,9 @@ class TruncatedText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(truncate(text, maxLength));
+    return Text(
+      truncate(text, maxLength),
+      style: style,
+    );
   }
 }

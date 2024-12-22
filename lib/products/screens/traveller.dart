@@ -1,6 +1,9 @@
 import 'dart:convert';
+import 'package:ajeg_mobile/products/models/product_model.dart';
+import 'package:ajeg_mobile/review/widgets/rating_panel.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:ajeg_mobile/review/widgets/review_list.dart';
 
 class ProductPage extends StatefulWidget {
   const ProductPage({super.key});
@@ -10,7 +13,7 @@ class ProductPage extends StatefulWidget {
 }
 
 class _ProductPageState extends State<ProductPage> {
-  late List<Product> _allProducts;
+  late List<ProductModel> _allProducts;
 
   @override
   void initState() {
@@ -26,7 +29,8 @@ class _ProductPageState extends State<ProductPage> {
       if (response.statusCode == 200) {
         final List<dynamic> data = jsonDecode(response.body);
         setState(() {
-          _allProducts = data.map((json) => Product.fromJson(json)).toList();
+          _allProducts =
+              data.map((json) => ProductModel.fromJson(json)).toList();
         });
       } else {
         throw Exception('Failed to load products');
@@ -87,7 +91,7 @@ class _ProductPageState extends State<ProductPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          product.name,
+                          product.fields.name,
                           style: const TextStyle(
                               fontSize: 16, fontWeight: FontWeight.bold),
                           maxLines: 2,
@@ -95,13 +99,13 @@ class _ProductPageState extends State<ProductPage> {
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          '\$${product.price}',
+                          '\$${product.fields.price}',
                           style: const TextStyle(
                               fontSize: 14, color: Colors.green),
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          'Rating: ${product.averageRating} (${product.reviewCount} reviews)',
+                          'Rating: ${product.fields.averageRating} (${product.fields.reviewCount} reviews)',
                           style:
                               const TextStyle(fontSize: 12, color: Colors.grey),
                         ),
@@ -152,7 +156,7 @@ class Product {
 }
 
 class ProductDetailsPage extends StatelessWidget {
-  final Product product;
+  final ProductModel product;
 
   const ProductDetailsPage({super.key, required this.product});
 
@@ -160,7 +164,7 @@ class ProductDetailsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(product.name),
+        title: Text(product.fields.name),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -180,32 +184,43 @@ class ProductDetailsPage extends StatelessWidget {
             // ),
             const SizedBox(height: 16),
             Text(
-              product.name,
+              product.fields.name,
               style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
             Text(
-              '\$${product.price}',
+              '\$${product.fields.price}',
               style: const TextStyle(fontSize: 20, color: Colors.green),
             ),
             const SizedBox(height: 8),
             Row(
               children: [
-                for (int i = 0; i < product.averageRating; i++)
+                for (int i = 0; i < product.fields.averageRating; i++)
                   const Icon(Icons.star, color: Colors.amber),
-                for (int i = 0; i < 5 - product.averageRating; i++)
+                for (int i = 0; i < 5 - product.fields.averageRating; i++)
                   const Icon(Icons.star_border, color: Colors.amber),
-                Text("${product.reviewCount} reviews"),
+                GestureDetector(
+                  child: Text("${product.fields.reviewCount} reviews"),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ReviewList(product: product),
+                      ),
+                    );
+                  },
+                ),
               ],
             ),
             const SizedBox(height: 8),
             Text(
-              product.description,
+              product.fields.description,
               style: const TextStyle(fontSize: 16),
             ),
             const SizedBox(height: 16),
             ElevatedButton(
               onPressed: () {
+                // TODO: Actually add product to cart
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text('Added to cart')),
                 );
