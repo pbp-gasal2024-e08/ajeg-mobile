@@ -1,4 +1,5 @@
-import 'package:ajeg_mobile/authentication/screens/login.dart';
+// import 'package:ajeg_mobile/authentication/screens/login.dart';
+import 'package:ajeg_mobile/screens/home_new.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -24,7 +25,7 @@ class HomeScreen extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const LoginPage()));
+                          builder: (context) => const MyHomePage(title:"Ajeg")));
                 }),
             const SizedBox(height: 20),
             FloatingPanel(
