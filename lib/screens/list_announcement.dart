@@ -75,7 +75,6 @@ class _AnnouncementPageState extends State<AnnouncementPage> {
       appBar: AppBar(
         title: const Text('Announcement List'),
       ),
-      drawer: const LeftDrawer(),
       body: Column(
         children: [
           ElevatedButton(
