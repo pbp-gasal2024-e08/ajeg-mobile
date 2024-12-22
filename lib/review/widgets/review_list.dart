@@ -1,59 +1,71 @@
-import 'dart:convert';
-
 import 'package:ajeg_mobile/widgets/truncated_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:ajeg_mobile/products/models/product_model.dart';
-import 'package:ajeg_mobile/review/models/review_model.dart';
+import 'package:ajeg_mobile/review/models/editable_review_model.dart';
 
 class ReviewList extends StatelessWidget {
   final ProductModel product;
 
   const ReviewList({super.key, required this.product});
 
-  fetchReviews(CookieRequest request) async {
-    final response = await request.get(
-      'http://localhost:8000/review/by-product/${product.pk}/',
-    );
+  Future<List<EditableReview>> fetchReviews(CookieRequest request) async {
+    final response = await request
+        .get('http://localhost:8000/review/by-product/${product.pk}');
 
-    if (response.statusCode == 200) {
-      final List<dynamic> data = jsonDecode(response.body);
-      return data.map((json) => Review.fromJson(json)).toList();
+    List<EditableReview> results = [];
+
+    var data = response;
+
+    for (var d in data["data"]) {
+      if (d != null) {
+        results.add(EditableReview.fromJson(d));
+      }
     }
+
+    return results;
   }
 
   @override
   Widget build(BuildContext context) {
     final request = Provider.of<CookieRequest>(context);
-    return FutureBuilder(
+    return FutureBuilder<List<EditableReview>>(
       future: fetchReviews(request),
-      builder: (context, AsyncSnapshot<List<Review>> snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
-          if (snapshot.hasData) {
-            return ListView.builder(
-              shrinkWrap: true,
-              itemCount: 3,
-              itemBuilder: (_, index) {
-                final review = snapshot.data![index].fields;
-                return ReviewListItem(
-                  creator: review.creator.toString(),
-                  createdAt: review.createdAt,
-                  lastUpdated: review.lastUpdated,
-                  starRating: review.starRating,
-                  synopsis: review.synopsis,
-                );
-              },
+      builder: (context, AsyncSnapshot snapshot) {
+        if (snapshot.data == null) {
+          return const Center(child: CircularProgressIndicator());
+        } else {
+          if (!snapshot.hasData) {
+            return const Column(
+              children: [
+                Text(
+                  'No reviews found.',
+                  style: TextStyle(fontSize: 20, color: Color(0xff59A5D8)),
+                ),
+                SizedBox(height: 8),
+              ],
             );
           } else {
-            return const Center(
-              child: Text('No reviews available.'),
+            return Scaffold(
+              appBar: AppBar(
+                title: Text('Reviews for ${product.fields.name}'),
+              ),
+              body: ListView.builder(
+                itemCount: snapshot.data!.length,
+                itemBuilder: (_, index) {
+                  final voucher = snapshot.data![index];
+                  return ReviewListItem(
+                    creator: voucher.creator.toString(),
+                    createdAt: voucher.createdAt,
+                    lastUpdated: voucher.lastUpdated,
+                    starRating: voucher.starRating,
+                    synopsis: voucher.synopsis,
+                  );
+                },
+              ),
             );
           }
-        } else {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
         }
       },
     );
@@ -62,8 +74,8 @@ class ReviewList extends StatelessWidget {
 
 class ReviewListItem extends StatelessWidget {
   final String creator;
-  final DateTime createdAt;
-  final DateTime lastUpdated;
+  final String createdAt;
+  final String lastUpdated;
   final int starRating;
   final String synopsis;
 
@@ -82,13 +94,64 @@ class ReviewListItem extends StatelessWidget {
       padding: const EdgeInsets.all(10),
       child: Column(
         children: [
-          Text("Creator: $creator"),
-          Text("Created At: $createdAt"),
-          Text("Last Updated: $lastUpdated"),
-          Text("Star Rating: $starRating"),
-          TruncatedText(
-            text: "Synopsis: $synopsis",
-            maxLength: 50,
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              "Review by $creator",
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+              ),
+            ),
+          ),
+          const SizedBox(height: 8),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Created: $createdAt",
+                style: TextStyle(
+                  color: Colors.grey[600],
+                  fontSize: 12,
+                ),
+              ),
+              Text(
+                "Updated: $lastUpdated",
+                style: TextStyle(
+                  color: Colors.grey[600],
+                  fontSize: 12,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          Row(
+            children: List.generate(
+              5,
+              (index) => Icon(
+                index < starRating ? Icons.star : Icons.star_border,
+                color: Colors.amber,
+                size: 20,
+              ),
+            ),
+          ),
+          const SizedBox(height: 8),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              TruncatedText(
+                text: synopsis,
+                maxLength: 50,
+                style: TextStyle(
+                  color: Colors.grey[600],
+                  fontSize: 14,
+                ),
+              ),
+            ],
+          ),
+          Divider(
+            color: Colors.grey[400],
+            thickness: 1,
           ),
         ],
       ),
