@@ -15,10 +15,12 @@ class AnnouncementPage extends StatefulWidget {
 
 class _AnnouncementPageState extends State<AnnouncementPage> {
   List<Announcement> _announcements = [];
+  bool _isMerchant = false;
 
   Future<List<Announcement>> fetchAnnouncement(CookieRequest request) async {
-    final response = await request.get(
-        'http://https://thorbert-anson-ajeg.pbp.cs.ui.ac.id/announcement/');
+
+    var response =
+        await request.get('http://localhost:8000/announcement/get-flutter/');
 
     // Decode response into JSON
     var data = response;
@@ -30,6 +32,7 @@ class _AnnouncementPageState extends State<AnnouncementPage> {
         listAnnouncement.add(Announcement.fromJson(d));
       }
     }
+
     setState(() {
       _announcements = listAnnouncement;
     });
@@ -61,11 +64,20 @@ class _AnnouncementPageState extends State<AnnouncementPage> {
     }
   }
 
+  Future<void> fetchIsMerchant(CookieRequest request) async {
+    final response = await request
+        .get('http://localhost:8000/announcement/is-merchant-flutter/');
+    setState(() {
+      _isMerchant = response['isMerchant'];
+    });
+  }
+
   @override
   void initState() {
     super.initState();
     final request = context.read<CookieRequest>();
     fetchAnnouncement(request);
+    fetchIsMerchant(request);
   }
 
   @override
@@ -78,18 +90,19 @@ class _AnnouncementPageState extends State<AnnouncementPage> {
       drawer: const LeftDrawer(),
       body: Column(
         children: [
-          ElevatedButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const AddAnnouncementPage(),
-                ),
-              );
-            },
-            child: const Text('Tambah Announcement',
-                style: TextStyle(color: Colors.deepOrangeAccent)),
-          ),
+          if (_isMerchant)
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const AddAnnouncementPage(),
+                  ),
+                );
+              },
+              child: const Text('Tambah Announcement',
+                  style: TextStyle(color: Colors.deepOrangeAccent)),
+            ),
           const SizedBox(height: 10),
           Expanded(
             child: _announcements.isEmpty
@@ -118,78 +131,79 @@ class _AnnouncementPageState extends State<AnnouncementPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                announcement.fields.title,
+                                announcement.title,
                                 style: const TextStyle(
                                     fontSize: 18.0,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.white),
                               ),
                               const SizedBox(height: 10),
-                              Text(announcement.fields.description,
+                              Text(announcement.description,
                                   style: const TextStyle(color: Colors.white)),
                               const SizedBox(height: 10),
-                              Text("Store id: ${announcement.fields.store}",
+                              Text("Store: ${announcement.storeName}",
                                   style: const TextStyle(color: Colors.white)),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  ElevatedButton(
-                                    onPressed: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              EditAnnouncementPage(
-                                            announcement,
+                              if (announcement.isOwner)
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                EditAnnouncementPage(
+                                              announcement,
+                                            ),
                                           ),
-                                        ),
-                                      );
-                                    },
-                                    child: const Text(
-                                      'Edit',
-                                      style: TextStyle(
-                                          color: Colors.deepOrangeAccent),
+                                        );
+                                      },
+                                      child: const Text(
+                                        'Edit',
+                                        style: TextStyle(
+                                            color: Colors.deepOrangeAccent),
+                                      ),
                                     ),
-                                  ),
-                                  const SizedBox(width: 10),
-                                  ElevatedButton(
-                                    onPressed: () {
-                                      showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return AlertDialog(
-                                            title: const Text(
-                                                'Delete Announcement'),
-                                            content: const Text(
-                                                'Apakah anda yakin ingin menghapus announcement ini?'),
-                                            actions: <Widget>[
-                                              TextButton(
-                                                onPressed: () {
-                                                  Navigator.pop(context);
-                                                },
-                                                child: const Text('Cancel'),
-                                              ),
-                                              TextButton(
-                                                onPressed: () async {
-                                                  await deleteAnnouncement(
-                                                      request, announcement);
-                                                },
-                                                child: const Text('Delete'),
-                                              ),
-                                            ],
-                                          );
-                                        },
-                                      );
-                                    },
-                                    child: const Text(
-                                      'Delete',
-                                      style: TextStyle(
-                                          color: Colors.deepOrangeAccent),
+                                    const SizedBox(width: 10),
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return AlertDialog(
+                                              title: const Text(
+                                                  'Delete Announcement'),
+                                              content: const Text(
+                                                  'Apakah anda yakin ingin menghapus announcement ini?'),
+                                              actions: <Widget>[
+                                                TextButton(
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: const Text('Cancel'),
+                                                ),
+                                                TextButton(
+                                                  onPressed: () async {
+                                                    await deleteAnnouncement(
+                                                        request, announcement);
+                                                  },
+                                                  child: const Text('Delete'),
+                                                ),
+                                              ],
+                                            );
+                                          },
+                                        );
+                                      },
+                                      child: const Text(
+                                        'Delete',
+                                        style: TextStyle(
+                                            color: Colors.deepOrangeAccent),
+                                      ),
                                     ),
-                                  ),
-                                ],
-                              ),
+                                  ],
+                                ),
                             ],
                           ),
                         ),

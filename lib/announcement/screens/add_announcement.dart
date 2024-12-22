@@ -17,6 +17,7 @@ class _AddAnnouncementPageState extends State<AddAnnouncementPage> {
   final _formKey = GlobalKey<FormState>();
   String _title = "";
   String _description = "";
+  int _storeId = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -95,6 +96,40 @@ class _AddAnnouncementPageState extends State<AddAnnouncementPage> {
                 },
               ),
             ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextFormField(
+                decoration: InputDecoration(
+                  hintText: "Store ID",
+                  labelText: "Store ID",
+                  floatingLabelStyle: const TextStyle(color: Colors.deepOrange),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(5.0),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(color: Colors.deepOrange),
+                    borderRadius: BorderRadius.circular(5.0),
+                  ),
+                ),
+                onChanged: (String? value) {
+                  setState(() {
+                    _storeId = int.tryParse(value!) ?? 0;
+                  });
+                },
+                validator: (String? value) {
+                  if (value == null || value.isEmpty) {
+                    return "Store ID tidak boleh kosong!";
+                  }
+                  if (int.tryParse(value) == null) {
+                    return "Store ID harus berupa angka!";
+                  }
+                  if (int.tryParse(value)! <= 0) {
+                    return "Amount harus bernilai positif!";
+                  }
+                  return null;
+                },
+              ),
+            ),
             Align(
               alignment: Alignment.bottomCenter,
               child: Padding(
@@ -111,7 +146,7 @@ class _AddAnnouncementPageState extends State<AddAnnouncementPage> {
                         jsonEncode(<String, String>{
                           'title': _title,
                           'description': _description,
-                          'store': '1',
+                          'store': _storeId.toString(),
                         }),
                       );
                       if (context.mounted) {
