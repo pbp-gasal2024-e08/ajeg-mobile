@@ -73,8 +73,7 @@ class _RatingPanelState extends State<RatingPanel> {
           ),
           ElevatedButton(
             onPressed: () async {
-              final response =
-                  await request.get("http://127.0.0.1:8000/review/");
+              submitReview(context, request);
             },
             child: const Text('Submit'),
           ),
