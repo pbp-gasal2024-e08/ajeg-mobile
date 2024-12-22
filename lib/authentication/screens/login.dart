@@ -16,7 +16,7 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  bool _isLoading = false;
+  // bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class _LoginPageState extends State<LoginPage> {
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
           elevation: 0,
-          backgroundColor: _isLoading ? const Color(0xFFB1B1B1) : Colors.white,
+          // backgroundColor: _isLoading ? const Color(0xFFB1B1B1) : Colors.white,
           leading: IconButton(
             icon: const Icon(
               Icons.arrow_back,
@@ -105,20 +105,16 @@ class _LoginPageState extends State<LoginPage> {
                       final navigator = Navigator.of(context);
                       String username = _usernameController.text;
                       String password = _passwordController.text;
-                      setState(() {
-                        _isLoading = true;
+                      // setState(() {
+                      //   _isLoading = true;
+                      // });
+                      final response = await request
+                          .login("http://localhost:8000/mobile-login/", {
+                        'username': username,
+                        'password': password,
                       });
-                      final response = await request.login(
-                          "http://localhost:8000/mobile-login/",
-                          {
-                            'username': username,
-                            'password': password,
-                          });
                       await Future.delayed(const Duration(milliseconds: 1), () {
                         if (request.loggedIn) {
-                          setState(() {
-                            _isLoading = false;
-                          });
                           navigator.pushAndRemoveUntil(
                             MaterialPageRoute(
                               builder: (context) => const MyHomePage(title: ''),
@@ -143,9 +139,9 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                             );
                           }
-                          setState(() {
-                            _isLoading = false;
-                          });
+                          // setState(() {
+                          //   _isLoading = false;
+                          // });
                         }
                       });
                     },
@@ -166,28 +162,28 @@ class _LoginPageState extends State<LoginPage> {
                 ],
               ),
             ),
-            if (_isLoading)
-              const Opacity(
-                opacity: 0.3,
-                child: ModalBarrier(dismissible: false, color: Colors.black),
-              ),
-            if (_isLoading)
-              Center(
-                child: Container(
-                  height: 100,
-                  width: 100,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(16.0),
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            if (_isLoading)
-              const Center(
-                child: CircularProgressIndicator(
-                  color: Color.fromARGB(255, 219, 128, 53),
-                ),
-              ),
+            // if (_isLoading)
+            //   const Opacity(
+            //     opacity: 0.3,
+            //     child: ModalBarrier(dismissible: false, color: Colors.black),
+            //   ),
+            // if (_isLoading)
+            //   Center(
+            //     child: Container(
+            //       height: 100,
+            //       width: 100,
+            //       decoration: BoxDecoration(
+            //         borderRadius: BorderRadius.circular(16.0),
+            //         color: Colors.white,
+            //       ),
+            //     ),
+            //   ),
+            // if (_isLoading)
+            //   const Center(
+            //     child: CircularProgressIndicator(
+            //       color: Color.fromARGB(255, 219, 128, 53),
+            //     ),
+            //   ),
           ],
         ),
       ),
@@ -214,7 +210,8 @@ class _LoginPageState extends State<LoginPage> {
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
-                borderSide: const BorderSide(color: Color.fromARGB(255, 219, 128, 53)),
+                borderSide:
+                    const BorderSide(color: Color.fromARGB(255, 219, 128, 53)),
               ),
               contentPadding: const EdgeInsets.symmetric(vertical: 15.0)),
           style: GoogleFonts.inter(
@@ -240,7 +237,8 @@ class _LoginPageState extends State<LoginPage> {
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
-              borderSide: const BorderSide(color: Color.fromARGB(255, 219, 128, 53)),
+              borderSide:
+                  const BorderSide(color: Color.fromARGB(255, 219, 128, 53)),
             ),
             contentPadding: const EdgeInsets.symmetric(vertical: 15.0),
           ),
