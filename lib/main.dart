@@ -51,7 +51,7 @@ class MainApp extends StatelessWidget {
         return request;
       },
       child: MaterialApp(
-        title: 'Car Commerce',
+        title: 'Ajeg',
         theme: ThemeData(
           useMaterial3: true,
           colorScheme: ColorScheme.fromSwatch(
