@@ -2,6 +2,9 @@ import 'dart:math';
 
 import 'package:ajeg_mobile/checkout/screens/cart.dart';
 import 'package:ajeg_mobile/products/screens/traveller.dart';
+import 'package:ajeg_mobile/screens/list_announcement.dart';
+import 'package:ajeg_mobile/screens/list_voucher.dart';
+import 'package:ajeg_mobile/screens/qna_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
@@ -229,9 +232,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => PlaceholderPage(
-                                    title: "Katalog Produk",
-                                  ),
+                                  builder: (context) => AnnouncementPage()
                                 ),
                               );
                             },
@@ -253,7 +254,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          "Katalog",
+                                          "Annoucements",
                                           style: GoogleFonts.inter(
                                             fontSize: 22,
                                             fontWeight: FontWeight.w600,
@@ -261,7 +262,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                           ),
                                         ),
                                         Text(
-                                          "Lihat semua item disini",
+                                          "Lihat announcement toko disini",
                                           style: GoogleFonts.inter(
                                             fontSize: 13,
                                             fontWeight: FontWeight.w300,
@@ -274,7 +275,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   Padding(
                                     padding: const EdgeInsets.only(right: 10.0),
                                     child: Icon(
-                                      Icons.food_bank,
+                                      Icons.announcement,
                                       color: Colors.white,
                                       size: 40,
                                     ),
@@ -297,9 +298,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => PlaceholderPage(
-                                    title: "Katalog Produk",
-                                  ),
+                                  builder: (context) => QnAPage()
                                 ),
                               );
                             },
@@ -321,7 +320,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          "Katalog",
+                                          "QnA",
                                           style: GoogleFonts.inter(
                                             fontSize: 22,
                                             fontWeight: FontWeight.w600,
@@ -329,7 +328,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                           ),
                                         ),
                                         Text(
-                                          "Lihat semua item disini",
+                                          "Lihat QnA product",
                                           style: GoogleFonts.inter(
                                             fontSize: 13,
                                             fontWeight: FontWeight.w300,
@@ -342,7 +341,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   Padding(
                                     padding: const EdgeInsets.only(right: 10.0),
                                     child: Icon(
-                                      Icons.food_bank,
+                                      Icons.question_answer,
                                       color: Colors.white,
                                       size: 40,
                                     ),
@@ -365,9 +364,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => PlaceholderPage(
-                                    title: "Katalog Produk",
-                                  ),
+                                  builder: (context) => VoucherPage()
                                 ),
                               );
                             },
@@ -389,7 +386,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          "Katalog",
+                                          "Vouchers",
                                           style: GoogleFonts.inter(
                                             fontSize: 22,
                                             fontWeight: FontWeight.w600,
@@ -397,7 +394,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                           ),
                                         ),
                                         Text(
-                                          "Lihat semua item disini",
+                                          "Lihat vouchers untuk diskon disini",
                                           style: GoogleFonts.inter(
                                             fontSize: 13,
                                             fontWeight: FontWeight.w300,
@@ -410,7 +407,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   Padding(
                                     padding: const EdgeInsets.only(right: 10.0),
                                     child: Icon(
-                                      Icons.food_bank,
+                                      Icons.discount,
                                       color: Colors.white,
                                       size: 40,
                                     ),
