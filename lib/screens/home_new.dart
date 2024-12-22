@@ -10,24 +10,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Ajeg Main Home',
-      theme: ThemeData(primarySwatch: Colors.blue),
-      home: const MyHomePage(title: 'Home Page'),
-    );
-  }
-}
-
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
   final String title;
@@ -37,25 +19,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  late List<dynamic> _allProducts;
-
-  @override
-  void initState() {
-    super.initState();
-    _allProducts = [];
-    fetchProduct();
-  }
-
-  Future<void> fetchProduct() async {
-    // Simulated API response for testing layout
-    await Future.delayed(const Duration(seconds: 1));
-    _allProducts = List.generate(
-      5,
-      (index) => {"name": "Book $index", "image": null},
-    );
-    setState(() {});
-  }
-
   @override
   Widget build(BuildContext context) {
     int len = 12; // Simulated user name length for testing layout
@@ -130,16 +93,6 @@ class _MyHomePageState extends State<MyHomePage> {
                     ],
                   ),
                   // // buat voucher?
-                  // Expanded(
-                  //   child: Padding(
-                  //     padding: const EdgeInsets.fromLTRB(20, 5, 5, 5),
-                  //     child: Image.network(
-                  //       'placeholder',
-                  //       width: 120,
-                  //       height: 120,
-                  //     ),
-                  //   ),
-                  // )
                 ],
               ),
             ),
@@ -420,56 +373,6 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                   const SizedBox(height: 20),
                   // New Books Section
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(20, 10, 0, 20),
-                      child: Text(
-                        "New Products",
-                        style: GoogleFonts.inter(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 5, right: 5),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: List.generate(3, (index) {
-                        final book = _allProducts.isNotEmpty
-                            ? _allProducts[Random().nextInt(_allProducts.length)]
-                            : {"name": "Book Placeholder", "image": null};
-
-                        return Container(
-                          padding: const EdgeInsets.all(5),
-                          margin: const EdgeInsets.symmetric(horizontal: 10),
-                          height: 200,
-                          width: MediaQuery.of(context).size.width * 0.27,
-                          decoration: BoxDecoration(
-                            color: const Color(0xffd7e9f4),
-                            borderRadius: BorderRadius.circular(13),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.5),
-                                blurRadius: 5,
-                                offset: const Offset(0, 2),
-                              )
-                            ],
-                          ),
-                          child: Image.network(
-                            book["image"] ??
-                                "https://via.placeholder.com/150",
-                            errorBuilder: (context, error, stackTrace) {
-                              return const Icon(Icons.error);
-                            },
-                          ),
-                        );
-                      }),
-                    ),
-                  )
                 ],
               ),
             ),

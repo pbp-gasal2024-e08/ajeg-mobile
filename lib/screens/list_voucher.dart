@@ -180,7 +180,6 @@ class _VoucherPageState extends State<VoucherPage> {
       appBar: AppBar(
         title: const Text('My Discounts'),
       ),
-      drawer: const LeftDrawer(),
       body: FutureBuilder<List<Voucher>>(
         future: fetchVoucher(request),
         builder: (context, AsyncSnapshot<List<Voucher>> snapshot) {
