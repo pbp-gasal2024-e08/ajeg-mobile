@@ -22,7 +22,8 @@ class _ProductPageState extends State<ProductPage> {
   }
 
   Future<void> fetchProducts() async {
-    final url = Uri.parse('http://localhost:8000/get-products/');
+    final url = Uri.parse(
+        'http://https://thorbert-anson-ajeg.pbp.cs.ui.ac.id/get-products/');
     try {
       final response = await http.get(url);
       if (response.statusCode == 200) {

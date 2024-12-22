@@ -109,7 +109,7 @@ class VoucherCard extends StatelessWidget {
                     ? null
                     : () async {
                         final response = await request.post(
-                          "http://127.0.0.1:8000/vouchers/claim-voucher/$code/",
+                          "http://https://thorbert-anson-ajeg.pbp.cs.ui.ac.id/vouchers/claim-voucher/$code/",
                           {},
                         );
 
@@ -160,8 +160,8 @@ class VoucherPage extends StatefulWidget {
 class _VoucherPageState extends State<VoucherPage> {
   Future<List<Voucher>> fetchVoucher(CookieRequest request) async {
     // TOD Ganti URL dan jangan lupa tambahkan trailing slash (/) di akhir URL!
-    final response =
-        await request.get('http://127.0.0.1:8000/vouchers/vouchers-json/');
+    final response = await request.get(
+        'http://https://thorbert-anson-ajeg.pbp.cs.ui.ac.id/vouchers/vouchers-json/');
 
     // Melakukan decode response menjadi bentuk json
     var data = response;

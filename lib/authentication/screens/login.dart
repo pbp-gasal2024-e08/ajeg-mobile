@@ -107,11 +107,12 @@ class _LoginPageState extends State<LoginPage> {
                       // setState(() {
                       //   _isLoading = true;
                       // });
-                      final response = await request
-                          .login("http://localhost:8000/mobile-login/", {
-                        'username': username,
-                        'password': password,
-                      });
+                      final response = await request.login(
+                          "http://https://thorbert-anson-ajeg.pbp.cs.ui.ac.id/mobile-login/",
+                          {
+                            'username': username,
+                            'password': password,
+                          });
                       await Future.delayed(const Duration(milliseconds: 1), () {
                         if (request.loggedIn) {
                           navigator.pushAndRemoveUntil(

@@ -17,7 +17,8 @@ class _AnnouncementPageState extends State<AnnouncementPage> {
   List<Announcement> _announcements = [];
 
   Future<List<Announcement>> fetchAnnouncement(CookieRequest request) async {
-    final response = await request.get('http://localhost:8000/announcement/');
+    final response = await request.get(
+        'http://https://thorbert-anson-ajeg.pbp.cs.ui.ac.id/announcement/');
 
     // Decode response into JSON
     var data = response;
@@ -38,7 +39,7 @@ class _AnnouncementPageState extends State<AnnouncementPage> {
   Future<void> deleteAnnouncement(
       CookieRequest request, Announcement announcement) async {
     final response = await request.get(
-        "http://localhost:8000/announcement/delete-flutter/${announcement.pk}");
+        "http://https://thorbert-anson-ajeg.pbp.cs.ui.ac.id/announcement/delete-flutter/${announcement.pk}");
     if (mounted) {
       if (response["status"] == "success") {
         setState(() {

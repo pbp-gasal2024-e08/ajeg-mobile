@@ -11,8 +11,8 @@ class ReviewList extends StatelessWidget {
   const ReviewList({super.key, required this.product});
 
   Future<List<EditableReview>> fetchReviews(CookieRequest request) async {
-    final response = await request
-        .get('http://localhost:8000/review/by-product/${product.pk}');
+    final response = await request.get(
+        'http://https://thorbert-anson-ajeg.pbp.cs.ui.ac.id/review/by-product/${product.pk}');
 
     List<EditableReview> results = [];
 
