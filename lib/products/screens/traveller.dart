@@ -189,7 +189,7 @@ class ProductDetailsPage extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             Text(
-              '\$${product.fields.price}',
+              'Rp${product.fields.price}',
               style: const TextStyle(fontSize: 20, color: Colors.green),
             ),
             const SizedBox(height: 8),

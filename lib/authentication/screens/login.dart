@@ -1,4 +1,3 @@
-import 'package:ajeg_mobile/main.dart';
 import 'package:ajeg_mobile/screens/home.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -116,21 +115,9 @@ class _LoginPageState extends State<LoginPage> {
                       });
                       await Future.delayed(const Duration(milliseconds: 1), () {
                         if (request.loggedIn) {
-                          // setState(() {
-                          //   _isLoading = false;
-                          // });
-                          Map<String, dynamic> data = {
-                            "username": response["username"],
-                            "fullname": response["fullname"],
-                            "id": response["id"],
-                            "type": response["type"],
-                          };
-                          UserInfo.login(data);
                           navigator.pushAndRemoveUntil(
                             MaterialPageRoute(
-                              builder: (context) => const MyHomePage(
-                                title: 'Home',
-                              ),
+                              builder: (context) => const MyHomePage(title: ''),
                             ),
                             (route) => false,
                           );
