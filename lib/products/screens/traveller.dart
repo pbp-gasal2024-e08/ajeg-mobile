@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-
 class ProductPage extends StatefulWidget {
   const ProductPage({super.key});
 
@@ -45,76 +44,76 @@ class _ProductPageState extends State<ProductPage> {
         backgroundColor: Colors.blue,
       ),
       body: //_allProducts.isEmpty
-      //     ? const Center(child: CircularProgressIndicator())
-      /*     : */ GridView.builder(
-              padding: const EdgeInsets.all(8),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10,
-                childAspectRatio: 0.7,
-              ),
-              itemCount: _allProducts.length,
-              itemBuilder: (context, index) {
-                final product = _allProducts[index];
-                return GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ProductDetailsPage(product: product),
-                      ),
-                    );
-                  },
-                  child: Card(
-                    elevation: 2.0,
+          //     ? const Center(child: CircularProgressIndicator())
+          /*     : */ GridView.builder(
+        padding: const EdgeInsets.all(8),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: 10,
+          mainAxisSpacing: 10,
+          childAspectRatio: 0.7,
+        ),
+        itemCount: _allProducts.length,
+        itemBuilder: (context, index) {
+          final product = _allProducts[index];
+          return GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ProductDetailsPage(product: product),
+                ),
+              );
+            },
+            child: Card(
+              elevation: 2.0,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // AspectRatio(
+                  //   aspectRatio: 1.6,
+                  //   child: Image.network(
+                  //     product.imgurl ??
+                  //         'https://via.placeholder.com/150', // Fallback image
+                  //     fit: BoxFit.cover,
+                  //     errorBuilder: (context, error, stackTrace) {
+                  //       return const Icon(Icons.error, size: 48);
+                  //     },
+                  //   ),
+                  // ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // AspectRatio(
-                        //   aspectRatio: 1.6,
-                        //   child: Image.network(
-                        //     product.imgurl ??
-                        //         'https://via.placeholder.com/150', // Fallback image
-                        //     fit: BoxFit.cover,
-                        //     errorBuilder: (context, error, stackTrace) {
-                        //       return const Icon(Icons.error, size: 48);
-                        //     },
-                        //   ),
-                        // ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                product.name,
-                                style: const TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.bold),
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              const SizedBox(height: 4),
-                              Text(
-                                '\$${product.price}',
-                                style: const TextStyle(
-                                    fontSize: 14, color: Colors.green),
-                              ),
-                              const SizedBox(height: 4),
-                              Text(
-                                'Rating: ${product.averageRating} (${product.reviewCount} reviews)',
-                                style: const TextStyle(
-                                    fontSize: 12, color: Colors.grey),
-                              ),
-                            ],
-                          ),
+                        Text(
+                          product.name,
+                          style: const TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          '\$${product.price}',
+                          style: const TextStyle(
+                              fontSize: 14, color: Colors.green),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          'Rating: ${product.averageRating} (${product.reviewCount} reviews)',
+                          style:
+                              const TextStyle(fontSize: 12, color: Colors.grey),
                         ),
                       ],
                     ),
                   ),
-                );
-              },
+                ],
+              ),
             ),
+          );
+        },
+      ),
     );
   }
 }
@@ -188,6 +187,16 @@ class ProductDetailsPage extends StatelessWidget {
             Text(
               '\$${product.price}',
               style: const TextStyle(fontSize: 20, color: Colors.green),
+            ),
+            const SizedBox(height: 8),
+            Row(
+              children: [
+                for (int i = 0; i < product.averageRating; i++)
+                  const Icon(Icons.star, color: Colors.amber),
+                for (int i = 0; i < 5 - product.averageRating; i++)
+                  const Icon(Icons.star_border, color: Colors.amber),
+                Text("${product.reviewCount} reviews"),
+              ],
             ),
             const SizedBox(height: 8),
             Text(

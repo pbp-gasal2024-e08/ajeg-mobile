@@ -53,17 +53,16 @@ class MainApp extends StatelessWidget {
         return request;
       },
       child: MaterialApp(
-        title: 'Ajeg',
-        theme: ThemeData(
-          useMaterial3: true,
-          colorScheme: ColorScheme.fromSwatch(
-            primarySwatch: Colors.orange,
-          ).copyWith(secondary: Colors.orange[400]),
-        ),
-        // home: const MyHomePage(title: "Ajeg"),
-        // home: const LoginPage()
-        home: const FirstPage()
-      ),
+          title: 'Ajeg',
+          theme: ThemeData(
+            useMaterial3: true,
+            colorScheme: ColorScheme.fromSwatch(
+              primarySwatch: Colors.orange,
+            ).copyWith(secondary: Colors.orange[400]),
+          ),
+          // home: const MyHomePage(title: "Ajeg"),
+          // home: const LoginPage()
+          home: const FirstPage()),
     );
   }
 }
