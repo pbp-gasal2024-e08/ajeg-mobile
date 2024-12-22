@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:ajeg_mobile/authentication/screens/login_new.dart';
+import 'package:ajeg_mobile/authentication/screens/login.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
@@ -19,7 +19,7 @@ class _RegisterPageState extends State<RegisterPage> {
       TextEditingController();
   String? _userType;
 
-  bool _isLoading = false;
+  // bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,7 @@ class _RegisterPageState extends State<RegisterPage> {
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: _isLoading ? const Color(0xFFB1B1B1) : Colors.white,
+        // backgroundColor: _isLoading ? const Color(0xFFB1B1B1) : Colors.white,
         leading: IconButton(
           icon: const Icon(
             Icons.arrow_back,
@@ -97,9 +97,9 @@ class _RegisterPageState extends State<RegisterPage> {
                       String password2 = _confirmPasswordController.text;
                       String? userType = _userType;
 
-                      setState(() {
-                        _isLoading = true;
-                      });
+                      // setState(() {
+                      // _isLoading = true;
+                      // });
 
                       final response = await request.postJson(
                           "http://localhost:8000/mobile-register/",
@@ -112,9 +112,9 @@ class _RegisterPageState extends State<RegisterPage> {
 
                       await Future.delayed(const Duration(milliseconds: 1), () {
                         if (response['status'] == 'success') {
-                          setState(() {
-                            _isLoading = false;
-                          });
+                          // setState(() {
+                          //   _isLoading = false;
+                          // });
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
                               content: Text('Successfully registered!'),
@@ -131,9 +131,9 @@ class _RegisterPageState extends State<RegisterPage> {
                               content: Text('Failed to register!'),
                             ),
                           );
-                          setState(() {
-                            _isLoading = false;
-                          });
+                          // setState(() {
+                          // _isLoading = false;
+                          // });
                         }
                       });
                     },
@@ -154,17 +154,17 @@ class _RegisterPageState extends State<RegisterPage> {
                 ],
               ),
             ),
-            if (_isLoading)
-              const Opacity(
-                opacity: 0.3,
-                child: ModalBarrier(dismissible: false, color: Colors.black),
-              ),
-            if (_isLoading)
-              const Center(
-                child: CircularProgressIndicator(
-                  color: Color.fromARGB(255, 219, 128, 53),
-                ),
-              ),
+            // // if (_isLoading)
+            //   const Opacity(
+            //     opacity: 0.3,
+            //     child: ModalBarrier(dismissible: false, color: Colors.black),
+            //   ),
+            // // if (_isLoading)
+            //   const Center(
+            //     child: CircularProgressIndicator(
+            //       color: Color.fromARGB(255, 219, 128, 53),
+            //     ),
+            //   ),
           ],
         ),
       ),
