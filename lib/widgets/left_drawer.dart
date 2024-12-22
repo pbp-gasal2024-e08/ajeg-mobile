@@ -1,5 +1,8 @@
+import 'package:ajeg_mobile/screens/home_new.dart';
 import 'package:ajeg_mobile/screens/list_voucher.dart';
+import 'package:ajeg_mobile/screens/qna_page.dart';
 import 'package:flutter/material.dart';
+import 'package:ajeg_mobile/announcement/screens/list_announcement.dart';
 
 class LeftDrawer extends StatelessWidget {
   const LeftDrawer({super.key});
@@ -22,14 +25,26 @@ class LeftDrawer extends StatelessWidget {
             ),
           ),
           InkWell(
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const MyHomePage(title: '')),
+              );
+            },
             child: const ListTile(
               leading: Icon(Icons.home),
               title: Text('Home'),
             ),
           ),
           InkWell(
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const AnnouncementPage()),
+              );
+            },
             child: const ListTile(
               leading: Icon(Icons.announcement),
               title: Text('Announcements'),
@@ -54,6 +69,18 @@ class LeftDrawer extends StatelessWidget {
               title: Text('Wishlist'),
             ),
           ),
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const QnAPage()),
+              );
+            },
+            child: const ListTile(
+              leading: Icon(Icons.question_answer),
+              title: Text('QnA'),
+            ),
+          )
         ],
       ),
     );

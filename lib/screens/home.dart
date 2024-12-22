@@ -1,3 +1,5 @@
+// import 'package:ajeg_mobile/authentication/screens/login.dart';
+import 'package:ajeg_mobile/screens/home_new.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -6,26 +8,33 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Home'),
-      ),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 0),
         child: Column(
           children: [
-            FloatingPanel(
-              color: Colors.deepOrange.shade100,
-              text: 'Panel 1',
-            ),
+            InkWell(
+                child: Column(children: [
+                  FloatingPanel(
+                    color: Colors.deepOrange.shade100,
+                    children: const [Text("See All Products")],
+                  )
+                ]),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              const MyHomePage(title: "Ajeg")));
+                }),
             const SizedBox(height: 20),
             FloatingPanel(
               color: Colors.deepOrange.shade50,
-              text: 'Panel 2',
+              children: const Text("Panel 2"),
             ),
             const SizedBox(height: 20),
             FloatingPanel(
               color: Colors.deepOrange.shade200,
-              text: 'Panel 3',
+              children: const Text("Panel 3"),
             ),
           ],
         ),
@@ -36,15 +45,16 @@ class HomeScreen extends StatelessWidget {
 
 class FloatingPanel extends StatelessWidget {
   final Color color;
-  final String text;
+  final dynamic children;
 
-  const FloatingPanel({super.key, required this.color, required this.text});
+  const FloatingPanel({super.key, required this.children, required this.color});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
       height: 200,
+      padding: const EdgeInsets.all(16.0),
       decoration: BoxDecoration(
         color: color,
         borderRadius: BorderRadius.circular(10),
@@ -57,13 +67,7 @@ class FloatingPanel extends StatelessWidget {
         ],
       ),
       child: Center(
-        child: Text(
-          text,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 20,
-          ),
-        ),
+        child: children,
       ),
     );
   }
