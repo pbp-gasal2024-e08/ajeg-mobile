@@ -26,10 +26,9 @@ class _EditAnnouncementPageState extends State<EditAnnouncementPage> {
   void initState() {
     super.initState();
     _id = widget.announcement.pk;
-    _titleController =
-        TextEditingController(text: widget.announcement.fields.title);
+    _titleController = TextEditingController(text: widget.announcement.title);
     _descriptionController =
-        TextEditingController(text: widget.announcement.fields.description);
+        TextEditingController(text: widget.announcement.description);
   }
 
   @override

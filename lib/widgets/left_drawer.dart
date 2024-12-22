@@ -1,3 +1,4 @@
+import 'package:ajeg_mobile/screens/home_new.dart';
 import 'package:ajeg_mobile/screens/list_voucher.dart';
 import 'package:ajeg_mobile/screens/qna_page.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +25,13 @@ class LeftDrawer extends StatelessWidget {
             ),
           ),
           InkWell(
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const MyHomePage(title: '')),
+              );
+            },
             child: const ListTile(
               leading: Icon(Icons.home),
               title: Text('Home'),
