@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:ajeg_mobile/products/screens/traveller.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
@@ -91,9 +92,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const PlaceholderPage(
-                                title: "Cart Page",
-                              ),
+                              builder: (context) => const ProductPage()
                             ),
                           );
                         },

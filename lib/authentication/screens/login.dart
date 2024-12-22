@@ -38,7 +38,7 @@ class _LoginPageState extends State<LoginPage> {
               Navigator.pop(context);
             },
           )),
-      body: SafeArea(
+      body: SingleChildScrollView(
         child: Stack(
           children: [
             Container(
@@ -49,7 +49,7 @@ class _LoginPageState extends State<LoginPage> {
                       end: Alignment.bottomCenter,
                       colors: [
                         Colors.white,
-                        Color.fromARGB(255, 149, 205, 237)
+                        Color.fromARGB(255, 241, 162, 88)
                       ])),
               height: MediaQuery.of(context).size.height,
               padding: const EdgeInsets.symmetric(horizontal: 30),
@@ -99,7 +99,7 @@ class _LoginPageState extends State<LoginPage> {
                   const SizedBox(height: 32.0),
                   MaterialButton(
                     elevation: 0.0,
-                    color: const Color(0xff3992C6),
+                    color: const Color.fromARGB(255, 219, 128, 53),
                     height: 56,
                     minWidth: double.infinity,
                     onPressed: () async {
@@ -194,7 +194,7 @@ class _LoginPageState extends State<LoginPage> {
             if (_isLoading)
               const Center(
                 child: CircularProgressIndicator(
-                  color: Color(0xff3992c6),
+                  color: Color.fromARGB(255, 219, 128, 53),
                 ),
               ),
           ],
@@ -213,7 +213,7 @@ class _LoginPageState extends State<LoginPage> {
               prefixIcon: const Icon(
                 Icons.account_circle_outlined,
                 size: 18,
-                color: Color(0xff3992C6),
+                color: Color.fromARGB(255, 219, 128, 53),
               ),
               hintText: "Username",
               filled: true,
@@ -223,7 +223,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
-                borderSide: const BorderSide(color: Color(0xff3992C6)),
+                borderSide: const BorderSide(color: Color.fromARGB(255, 219, 128, 53)),
               ),
               contentPadding: const EdgeInsets.symmetric(vertical: 15.0)),
           style: GoogleFonts.inter(
@@ -239,7 +239,7 @@ class _LoginPageState extends State<LoginPage> {
             prefixIcon: const Icon(
               Icons.key,
               size: 18,
-              color: Color(0xff3992C6),
+              color: Color.fromARGB(255, 219, 128, 53),
             ),
             hintText: "Password",
             filled: true,
@@ -249,7 +249,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
-              borderSide: const BorderSide(color: Color(0xff3992C6)),
+              borderSide: const BorderSide(color: Color.fromARGB(255, 219, 128, 53)),
             ),
             contentPadding: const EdgeInsets.symmetric(vertical: 15.0),
           ),

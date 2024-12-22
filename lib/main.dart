@@ -1,4 +1,6 @@
+import 'package:ajeg_mobile/authentication/screens/first_page.dart';
 import 'package:ajeg_mobile/authentication/screens/login.dart';
+import 'package:ajeg_mobile/screens/home_new.dart';
 // import 'package:ajeg_mobile/screens/home.dart';
 import 'package:flutter/material.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
@@ -58,7 +60,9 @@ class MainApp extends StatelessWidget {
             primarySwatch: Colors.orange,
           ).copyWith(secondary: Colors.orange[400]),
         ),
-        home: const LoginPage(),
+        // home: const MyHomePage(title: "Ajeg"),
+        // home: const LoginPage()
+        home: const FirstPage()
       ),
     );
   }

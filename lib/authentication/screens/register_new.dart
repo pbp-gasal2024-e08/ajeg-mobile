@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:ajeg_mobile/authentication/screens/login_new.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
 
@@ -12,176 +13,94 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  final _usernameController = TextEditingController();
-  final _passwordController = TextEditingController();
-  final _confirmPasswordController = TextEditingController();
-  String? _userTypeController;
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
+  String? _userType;
+
+  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
     final request = context.watch<CookieRequest>();
+
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        title: const Text('Register'),
+        elevation: 0,
+        backgroundColor: _isLoading ? const Color(0xFFB1B1B1) : Colors.white,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
+          icon: const Icon(
+            Icons.arrow_back,
+            size: 24,
+            color: Colors.black,
+          ),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
       ),
-      body: Center(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(16.0),
-          child: Card(
-            elevation: 8,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12.0),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(20.0),
+      body: SingleChildScrollView(
+        child: Stack(
+          children: [
+            Container(
+              decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      stops: [0.6, 0.9],
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Colors.white,
+                        Color.fromARGB(255, 241, 162, 88)
+                      ])),
+              height: MediaQuery.of(context).size.height,
+              padding: const EdgeInsets.symmetric(horizontal: 30),
               child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  const Text(
-                    'Register',
-                    style: TextStyle(
-                      fontSize: 24.0,
-                      fontWeight: FontWeight.bold,
+                children: [
+                  const SizedBox(height: 20),
+                  Text(
+                    "Register",
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.inter(
+                      textStyle: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 32,
+                      ),
                     ),
                   ),
-                  const SizedBox(height: 30.0),
-                  DropdownButtonFormField<String>(
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    decoration: InputDecoration(
-                      errorStyle:
-                          const TextStyle(fontSize: 11),
-                      prefixIcon: const Icon(
-                        Icons.person,
-                        size: 18,
-                        color: Color(0xff3992C6),
-                      ),
-                      filled: true,
-                      enabledBorder: UnderlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide.none,
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: const BorderSide(color: Color(0xff3992C6)),
-                      ),
-                      isDense: true,
-                      contentPadding:
-                          const EdgeInsets.only(top: 16.0, bottom: 16, right: 12.0),
-                      errorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: const BorderSide(color: Colors.red),
-                      ),
-                      focusedErrorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: const BorderSide(color: Colors.red),
-                      ),
-                    ),
-                    value: _userTypeController,
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        _userTypeController = newValue!;
-                      });
-                    },
-                    validator: (String? value) {
-                      if (value == null || value.isEmpty) {
-                        return "Choose an account type!";
-                      }
-                      return null;
-                    },
-                    hint: const Text(
-                      "Choose your account type...",
-                      style: TextStyle(
+                  const SizedBox(height: 20),
+                  Text(
+                    "Create an account with Ajeg",
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.inter(
+                      textStyle: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        color: Colors.grey[500],
                         fontSize: 16,
                       ),
                     ),
-                    items: const [
-                      DropdownMenuItem(
-                        value: "traveller",
-                        child: Text("Traveller (Normal User)"),
-                      ),
-                      DropdownMenuItem(
-                        value: "merchant",
-                        child: Text("Merchant (Store Owner)"),
-                      ),
-                    ],
                   ),
-                  const SizedBox(height: 12.0),
-                  TextFormField(
-                    controller: _usernameController,
-                    decoration: const InputDecoration(
-                      labelText: 'Username',
-                      hintText: 'Enter your username',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(12.0)),
-                      ),
-                      contentPadding:
-                          EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter your username';
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 12.0),
-                  TextFormField(
-                    controller: _passwordController,
-                    decoration: const InputDecoration(
-                      labelText: 'Password',
-                      hintText: 'Enter your password',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(12.0)),
-                      ),
-                      contentPadding:
-                          EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-                    ),
-                    obscureText: true,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter your password';
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 12.0),
-                  TextFormField(
-                    controller: _confirmPasswordController,
-                    decoration: const InputDecoration(
-                      labelText: 'Confirm Password',
-                      hintText: 'Confirm your password',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(12.0)),
-                      ),
-                      contentPadding:
-                          EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-                    ),
-                    obscureText: true,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please confirm your password';
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 24.0),
-                  ElevatedButton(
+                  const SizedBox(height: 32),
+                  getInputFields(),
+                  const SizedBox(height: 32),
+                  MaterialButton(
+                    elevation: 0.0,
+                    color: const Color.fromARGB(255, 219, 128, 53),
+                    height: 56,
+                    minWidth: double.infinity,
                     onPressed: () async {
+                      FocusManager.instance.primaryFocus?.unfocus();
+                      final navigator = Navigator.of(context);
                       String username = _usernameController.text;
                       String password1 = _passwordController.text;
                       String password2 = _confirmPasswordController.text;
-                      String? userType = _userTypeController;
+                      String? userType = _userType;
 
-                      // Cek kredensial
-                      // TODO: Ganti URL dan jangan lupa tambahkan trailing slash (/) di akhir URL!
-                      // Untuk menyambungkan Android emulator dengan Django pada localhost,
-                      // gunakan URL http://localhost:8000/
+                      setState(() {
+                        _isLoading = true;
+                      });
+
                       final response = await request.postJson(
                           "http://localhost:8000/mobile-register/",
                           jsonEncode({
@@ -190,17 +109,21 @@ class _RegisterPageState extends State<RegisterPage> {
                             "password2": password2,
                             "user_type": userType,
                           }));
-                      if (context.mounted) {
+
+                      await Future.delayed(const Duration(milliseconds: 1), () {
                         if (response['status'] == 'success') {
+                          setState(() {
+                            _isLoading = false;
+                          });
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
                               content: Text('Successfully registered!'),
                             ),
                           );
-                          Navigator.pushReplacement(
-                            context,
+                          navigator.pushReplacement(
                             MaterialPageRoute(
-                                builder: (context) => const LoginPage()),
+                              builder: (context) => const LoginPage(),
+                            ),
                           );
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
@@ -208,23 +131,157 @@ class _RegisterPageState extends State<RegisterPage> {
                               content: Text('Failed to register!'),
                             ),
                           );
+                          setState(() {
+                            _isLoading = false;
+                          });
                         }
-                      }
+                      });
                     },
-                    style: ElevatedButton.styleFrom(
-                      foregroundColor: Colors.white,
-                      minimumSize: Size(double.infinity, 50),
-                      backgroundColor: Theme.of(context).colorScheme.primary,
-                      padding: const EdgeInsets.symmetric(vertical: 16.0),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50),
                     ),
-                    child: const Text('Register'),
+                    child: Text(
+                      "Register",
+                      style: GoogleFonts.inter(
+                        textStyle: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
                   ),
                 ],
               ),
             ),
-          ),
+            if (_isLoading)
+              const Opacity(
+                opacity: 0.3,
+                child: ModalBarrier(dismissible: false, color: Colors.black),
+              ),
+            if (_isLoading)
+              const Center(
+                child: CircularProgressIndicator(
+                  color: Color.fromARGB(255, 219, 128, 53),
+                ),
+              ),
+          ],
         ),
       ),
+    );
+  }
+
+  Widget getInputFields() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        DropdownButtonFormField<String>(
+          value: _userType,
+          decoration: InputDecoration(
+            prefixIcon: const Icon(
+              Icons.person,
+              size: 18,
+              color: Color.fromARGB(255, 219, 128, 53),
+            ),
+            hintText: "Choose your account type...",
+            filled: true,
+            enabledBorder: UnderlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: BorderSide.none,
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide:
+                  const BorderSide(color: Color.fromARGB(255, 219, 128, 53)),
+            ),
+            contentPadding: const EdgeInsets.symmetric(vertical: 15.0),
+          ),
+          onChanged: (value) => setState(() {
+            _userType = value;
+          }),
+          items: const [
+            DropdownMenuItem(
+              value: "traveller",
+              child: Text("Traveller (Normal User)"),
+            ),
+            DropdownMenuItem(
+              value: "merchant",
+              child: Text("Merchant (Store Owner)"),
+            ),
+          ],
+        ),
+        const SizedBox(height: 20),
+        TextField(
+          controller: _usernameController,
+          decoration: InputDecoration(
+            prefixIcon: const Icon(
+              Icons.account_circle_outlined,
+              size: 18,
+              color: Color.fromARGB(255, 219, 128, 53),
+            ),
+            hintText: "Username",
+            filled: true,
+            enabledBorder: UnderlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: BorderSide.none,
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide:
+                  const BorderSide(color: Color.fromARGB(255, 219, 128, 53)),
+            ),
+            contentPadding: const EdgeInsets.symmetric(vertical: 15.0),
+          ),
+        ),
+        const SizedBox(height: 20),
+        TextField(
+          controller: _passwordController,
+          decoration: InputDecoration(
+            prefixIcon: const Icon(
+              Icons.lock_outline,
+              size: 18,
+              color: Color.fromARGB(255, 219, 128, 53),
+            ),
+            hintText: "Password",
+            filled: true,
+            enabledBorder: UnderlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: BorderSide.none,
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide:
+                  const BorderSide(color: Color.fromARGB(255, 219, 128, 53)),
+            ),
+            contentPadding: const EdgeInsets.symmetric(vertical: 15.0),
+          ),
+          obscureText: true,
+        ),
+        const SizedBox(height: 20),
+        TextField(
+          controller: _confirmPasswordController,
+          decoration: InputDecoration(
+            prefixIcon: const Icon(
+              Icons.lock_outline,
+              size: 18,
+              color: Color.fromARGB(255, 219, 128, 53),
+            ),
+            hintText: "Confirm Password",
+            filled: true,
+            enabledBorder: UnderlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: BorderSide.none,
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide:
+                  const BorderSide(color: Color.fromARGB(255, 219, 128, 53)),
+            ),
+            contentPadding: const EdgeInsets.symmetric(vertical: 15.0),
+          ),
+          obscureText: true,
+        ),
+      ],
     );
   }
 }
