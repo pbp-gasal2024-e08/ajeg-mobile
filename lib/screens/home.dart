@@ -1,3 +1,5 @@
+// import 'package:ajeg_mobile/authentication/screens/login.dart';
+import 'package:ajeg_mobile/screens/home_new.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -13,10 +15,18 @@ class HomeScreen extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 0),
         child: Column(
           children: [
-            FloatingPanel(
-              color: Colors.deepOrange.shade100,
-              text: 'Panel 1',
-            ),
+            InkWell(
+                child: Column(children: [
+                  FloatingPanel(
+                      color: Colors.deepOrange.shade100,
+                      text: "See All Products"),
+                ]),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const MyHomePage(title:"Ajeg")));
+                }),
             const SizedBox(height: 20),
             FloatingPanel(
               color: Colors.deepOrange.shade50,
