@@ -13,7 +13,7 @@ class _CartScreenState extends State<CartScreen> {
   bool isLoading = true;
 
   Future<void> fetchCart(CookieRequest request) async {
-    final response = await request.get('http://localhost:8000/cart/get-cart/');
+    final response = await request.get('http://localhost:8000/get-cart/');
     if (response.statusCode == 200) {
       final List<dynamic> data = (response.body);
       setState(() {
@@ -26,7 +26,7 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   Future<Map<String, dynamic>> fetchProduct(CookieRequest request, int productId) async {
-    final response = await request.get('http://localhost:8000/product/get-product/$productId/');
+    final response = await request.get('http://localhost:8000/get-product/$productId/');
     if (response.statusCode == 200) {
       return (response.body);
     } else {
@@ -36,7 +36,7 @@ class _CartScreenState extends State<CartScreen> {
 
   Future<void> removeCartItem(CookieRequest request, int productId) async {
     final response = await request.post(
-      'http://localhost:8000/cart/remove-item/',
+      'http://localhost:8000/remove-item/',
       {'product_id': productId},
     );
     if (response.statusCode == 200) {
@@ -50,7 +50,7 @@ class _CartScreenState extends State<CartScreen> {
 
   Future<void> updateCartQuantity(CookieRequest request, int productId, int quantity) async {
     final response = await request.post(
-      'http://localhost:8000/cart/update-quantity/',
+      'http://localhost:8000/update-quantity/',
       {'product_id': productId, 'quantity': quantity},
     );
     if (response.statusCode == 200) {

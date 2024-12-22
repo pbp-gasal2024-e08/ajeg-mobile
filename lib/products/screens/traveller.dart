@@ -136,7 +136,7 @@ class Product {
     required this.name,
     required this.price,
     required this.description,
-    this.imgurl,
+    required this.imgurl,
     required this.reviewCount,
     required this.averageRating,
   });
