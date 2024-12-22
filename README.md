@@ -9,8 +9,7 @@
 - Muhammad Nadzim Tahara (2306275430)
 - Thorbert Anson Shi (2306221900)
 
-Berikut adalah tautan ke APK Ajeg Mobile:
-[WIP](https://longdogechallenge.com/)
+Berikut adalah tautan ke APK [Ajeg Mobile](https://install.appcenter.ms/orgs/Ajeg-Mobile/apps/Ajeg-Mobile/releases/3)
 
 ## Deskripsi Aplikasi
 
