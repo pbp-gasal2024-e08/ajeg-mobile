@@ -8,8 +8,8 @@ class QnAPage extends StatefulWidget {
 }
 
 class _QnAPageState extends State<QnAPage> {
-  // List of questions and answers
-  final List<Map<String, String?>> _qnaList = [];
+  // List of questions and answers stored persistently
+  static final List<Map<String, String?>> _qnaList = [];
 
   final TextEditingController _questionController = TextEditingController();
   final TextEditingController _answerController = TextEditingController();
@@ -131,4 +131,4 @@ class _QnAPageState extends State<QnAPage> {
       ),
     );
   }
-}
+} 
