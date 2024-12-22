@@ -102,7 +102,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       // });
 
                       final response = await request.postJson(
-                          "http://localhost:8000/mobile-register/",
+                          "http://https://thorbert-anson-ajeg.pbp.cs.ui.ac.id/mobile-register/",
                           jsonEncode({
                             "username": username,
                             "password1": password1,

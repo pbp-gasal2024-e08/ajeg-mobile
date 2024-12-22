@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:ajeg_mobile/products/models/product_model.dart';
+import 'package:ajeg_mobile/review/widgets/rating_panel.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:ajeg_mobile/review/widgets/review_list.dart';
@@ -22,7 +23,8 @@ class _ProductPageState extends State<ProductPage> {
   }
 
   Future<void> fetchProducts() async {
-    final url = Uri.parse('http://localhost:8000/get-products/');
+    final url = Uri.parse(
+        'http://https://thorbert-anson-ajeg.pbp.cs.ui.ac.id/get-products/');
     try {
       final response = await http.get(url);
       if (response.statusCode == 200) {
@@ -98,7 +100,7 @@ class _ProductPageState extends State<ProductPage> {
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          '\$${product.fields.price}',
+                          'Rp${product.fields.price}',
                           style: const TextStyle(
                               fontSize: 14, color: Colors.green),
                         ),
@@ -226,6 +228,17 @@ class ProductDetailsPage extends StatelessWidget {
               },
               child: const Text('Add to Cart'),
             ),
+            const SizedBox(height: 16),
+
+            Column(
+              children: [
+                const Text(
+                  "Leave a review below",
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
+                RatingPanel(product: product),
+              ],
+            )
           ],
         ),
       ),

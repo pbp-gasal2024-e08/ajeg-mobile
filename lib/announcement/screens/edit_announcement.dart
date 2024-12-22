@@ -129,7 +129,7 @@ class _EditAnnouncementPageState extends State<EditAnnouncementPage> {
                     if (_formKey.currentState!.validate()) {
                       // Kirim ke Django dan tunggu respons
                       final response = await request.postJson(
-                        "http://127.0.0.1:8000/announcement/edit-flutter/$_id",
+                        "http://https://thorbert-anson-ajeg.pbp.cs.ui.ac.id/announcement/edit-flutter/$_id",
                         jsonEncode(<String, String>{
                           'title': _titleController.text,
                           'description': _descriptionController.text,

@@ -18,6 +18,7 @@ class _AnnouncementPageState extends State<AnnouncementPage> {
   bool _isMerchant = false;
 
   Future<List<Announcement>> fetchAnnouncement(CookieRequest request) async {
+
     var response =
         await request.get('http://localhost:8000/announcement/get-flutter/');
 
@@ -41,7 +42,7 @@ class _AnnouncementPageState extends State<AnnouncementPage> {
   Future<void> deleteAnnouncement(
       CookieRequest request, Announcement announcement) async {
     final response = await request.get(
-        "http://localhost:8000/announcement/delete-flutter/${announcement.pk}");
+        "http://https://thorbert-anson-ajeg.pbp.cs.ui.ac.id/announcement/delete-flutter/${announcement.pk}");
     if (mounted) {
       if (response["status"] == "success") {
         setState(() {
