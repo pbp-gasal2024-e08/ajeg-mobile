@@ -1,6 +1,6 @@
 import 'package:ajeg_mobile/checkout/screens/cart.dart';
 import 'package:ajeg_mobile/products/screens/traveller.dart';
-import 'package:ajeg_mobile/screens/list_announcement.dart';
+import 'package:ajeg_mobile/announcement/screens/list_announcement.dart';
 import 'package:ajeg_mobile/screens/list_voucher.dart';
 import 'package:ajeg_mobile/screens/qna_page.dart';
 import 'package:flutter/material.dart';
