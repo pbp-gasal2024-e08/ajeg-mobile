@@ -30,7 +30,7 @@ class VoucherCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(8.0),
           boxShadow: [
             BoxShadow(
-              color: Colors.grey.withOpacity(0.2),
+              color: Colors.grey.withAlpha(33),
               spreadRadius: 2,
               blurRadius: 6,
               offset: const Offset(0, 2),
@@ -47,7 +47,7 @@ class VoucherCard extends StatelessWidget {
               padding:
                   const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
               decoration: BoxDecoration(
-                color: Colors.orange.withOpacity(0.2),
+                color: Colors.orange.withAlpha(33),
                 borderRadius: BorderRadius.circular(4.0),
               ),
               child: Text(
