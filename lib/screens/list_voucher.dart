@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import '../models/voucher.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
-import '../widgets/left_drawer.dart';
 
 class VoucherCard extends StatelessWidget {
   final String code;
@@ -11,12 +10,12 @@ class VoucherCard extends StatelessWidget {
   final bool isClaimed;
 
   const VoucherCard({
-    Key? key,
+    super.key,
     required this.code,
     required this.discount,
     required this.expiryDate,
     required this.isClaimed,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +30,7 @@ class VoucherCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(8.0),
           boxShadow: [
             BoxShadow(
-              color: Colors.grey.withOpacity(0.2),
+              color: Colors.grey.withAlpha(33),
               spreadRadius: 2,
               blurRadius: 6,
               offset: const Offset(0, 2),
@@ -48,7 +47,7 @@ class VoucherCard extends StatelessWidget {
               padding:
                   const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
               decoration: BoxDecoration(
-                color: Colors.orange.withOpacity(0.2),
+                color: Colors.orange.withAlpha(33),
                 borderRadius: BorderRadius.circular(4.0),
               ),
               child: Text(
@@ -114,22 +113,26 @@ class VoucherCard extends StatelessWidget {
                           {},
                         );
 
+                        if (!context.mounted) return;
+
                         if (response['status'] == 'success') {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                              content: Text('Voucher $code claimed successfully!'),
+                              content:
+                                  Text('Voucher $code claimed successfully!'),
                             ),
                           );
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                              content: Text('Failed to claim voucher: ${response['message']}'),
+                              content: Text(
+                                  'Failed to claim voucher: ${response['message']}'),
                             ),
                           );
                         }
                       },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.orange,
+                  backgroundColor: const Color.fromARGB(255, 241, 202, 144),
                   disabledBackgroundColor: Colors.grey[300],
                   padding:
                       const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
@@ -180,7 +183,6 @@ class _VoucherPageState extends State<VoucherPage> {
       appBar: AppBar(
         title: const Text('My Discounts'),
       ),
-      drawer: const LeftDrawer(),
       body: FutureBuilder<List<Voucher>>(
         future: fetchVoucher(request),
         builder: (context, AsyncSnapshot<List<Voucher>> snapshot) {

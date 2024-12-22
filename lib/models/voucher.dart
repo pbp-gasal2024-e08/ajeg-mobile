@@ -130,6 +130,7 @@ class Fields {
 }
 
 enum Model {
+    // ignore: constant_identifier_names
     VOUCHERS_VOUCHER
 }
 
