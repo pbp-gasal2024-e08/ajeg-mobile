@@ -1,4 +1,3 @@
-import 'package:ajeg_mobile/screens/home.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ajeg_mobile/screens/home_new.dart';

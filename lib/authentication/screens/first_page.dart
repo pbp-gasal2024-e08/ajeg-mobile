@@ -1,5 +1,5 @@
 import 'package:ajeg_mobile/authentication/screens/login.dart';
-import 'package:ajeg_mobile/authentication/screens/register_new.dart';
+import 'package:ajeg_mobile/authentication/screens/register.dart';
 import 'package:flutter/material.dart';
 
 class FirstPage extends StatelessWidget {
@@ -34,27 +34,28 @@ class FirstPage extends StatelessWidget {
 
               // Welcome text section
               const SizedBox(height: 20),
-              Center(child: Column(children: [              
-              Text(
-                "Hello, Welcome to Ajeg!",
-                style: TextStyle(
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
-                  color: const Color.fromARGB(255, 230, 167, 49),
-                ),
-              ),
-              Text(
-                "Explore Bali cuisine like never before!",
-                style: TextStyle(
-                  fontSize: 16,
-                  color: const Color.fromARGB(255, 230, 167, 49),
-                  height: 1.5,
-                ),
-              ),
-              ],)
-              ),
+              const Center(
+                  child: Column(
+                children: [
+                  Text(
+                    "Hello, Welcome to Ajeg!",
+                    style: TextStyle(
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromARGB(255, 230, 167, 49),
+                    ),
+                  ),
+                  Text(
+                    "Explore Bali cuisine like never before!",
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Color.fromARGB(255, 230, 167, 49),
+                      height: 1.5,
+                    ),
+                  ),
+                ],
+              )),
               const SizedBox(height: 10),
-              
 
               const Spacer(),
 
@@ -81,7 +82,8 @@ class FirstPage extends StatelessWidget {
                     ),
                     child: const Text(
                       "Login",
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                   ),
                   const SizedBox(height: 12),
@@ -95,14 +97,15 @@ class FirstPage extends StatelessWidget {
                       );
                     },
                     style: OutlinedButton.styleFrom(
-                      side: const BorderSide(color: Colors.orangeAccent, width: 2),
+                      side: const BorderSide(
+                          color: Colors.orangeAccent, width: 2),
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       minimumSize: const Size(double.infinity, 56),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30),
                       ),
                     ),
-                    child: Text(
+                    child: const Text(
                       "Register",
                       style: TextStyle(
                         fontSize: 18,

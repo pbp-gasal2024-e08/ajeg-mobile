@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:ajeg_mobile/products/models/product_model.dart';
-import 'package:ajeg_mobile/review/widgets/rating_panel.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:ajeg_mobile/review/widgets/review_list.dart';
@@ -224,8 +223,6 @@ class ProductDetailsPage extends StatelessWidget {
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text('Added to cart')),
                 );
-                
-
               },
               child: const Text('Add to Cart'),
             ),

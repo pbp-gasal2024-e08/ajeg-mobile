@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import '../models/voucher.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
-import '../widgets/left_drawer.dart';
 
 class VoucherCard extends StatelessWidget {
   final String code;
@@ -11,12 +10,12 @@ class VoucherCard extends StatelessWidget {
   final bool isClaimed;
 
   const VoucherCard({
-    Key? key,
+    super.key,
     required this.code,
     required this.discount,
     required this.expiryDate,
     required this.isClaimed,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -114,16 +113,20 @@ class VoucherCard extends StatelessWidget {
                           {},
                         );
 
+                        if (!context.mounted) return;
+
                         if (response['status'] == 'success') {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                              content: Text('Voucher $code claimed successfully!'),
+                              content:
+                                  Text('Voucher $code claimed successfully!'),
                             ),
                           );
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                              content: Text('Failed to claim voucher: ${response['message']}'),
+                              content: Text(
+                                  'Failed to claim voucher: ${response['message']}'),
                             ),
                           );
                         }

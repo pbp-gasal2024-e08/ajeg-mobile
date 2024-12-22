@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'dart:convert';
 import 'package:provider/provider.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 
 class CartScreen extends StatefulWidget {
+  const CartScreen({super.key});
+
   @override
-  _CartScreenState createState() => _CartScreenState();
+  CartScreenState createState() => CartScreenState();
 }
 
-class _CartScreenState extends State<CartScreen> {
+class CartScreenState extends State<CartScreen> {
   List<dynamic> cartItems = [];
   bool isLoading = true;
 
@@ -25,8 +26,10 @@ class _CartScreenState extends State<CartScreen> {
     }
   }
 
-  Future<Map<String, dynamic>> fetchProduct(CookieRequest request, int productId) async {
-    final response = await request.get('http://localhost:8000/get-product/$productId/');
+  Future<Map<String, dynamic>> fetchProduct(
+      CookieRequest request, int productId) async {
+    final response = await request
+        .get('http://localhost:8000/product/get-product/$productId/');
     if (response.statusCode == 200) {
       return (response.body);
     } else {
@@ -48,7 +51,8 @@ class _CartScreenState extends State<CartScreen> {
     }
   }
 
-  Future<void> updateCartQuantity(CookieRequest request, int productId, int quantity) async {
+  Future<void> updateCartQuantity(
+      CookieRequest request, int productId, int quantity) async {
     final response = await request.post(
       'http://localhost:8000/update-quantity/',
       {'product_id': productId, 'quantity': quantity},
@@ -56,10 +60,12 @@ class _CartScreenState extends State<CartScreen> {
     if (response.statusCode == 200) {
       final updatedItem = (response.body);
       setState(() {
-        final index = cartItems.indexWhere((item) => item['fields']['product'] == productId);
+        final index = cartItems
+            .indexWhere((item) => item['fields']['product'] == productId);
         if (index != -1) {
           cartItems[index]['fields']['quantity'] = quantity;
-          cartItems[index]['fields']['total_price'] = updatedItem['total_price'];
+          cartItems[index]['fields']['total_price'] =
+              updatedItem['total_price'];
         }
       });
     } else {
@@ -68,7 +74,8 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   int calculateTotalPrice() {
-    return cartItems.fold(0, (sum, item) => sum + int.parse(item['fields']['total_price']));
+    return cartItems.fold(
+        0, (sum, item) => sum + int.parse(item['fields']['total_price']));
   }
 
   @override
@@ -99,7 +106,8 @@ class _CartScreenState extends State<CartScreen> {
                     return FutureBuilder(
                       future: fetchProduct(request, productId),
                       builder: (context, snapshot) {
-                        if (snapshot.connectionState == ConnectionState.waiting) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
                           return const CircularProgressIndicator();
                         } else if (snapshot.hasError) {
                           return const Text('Error loading product');
@@ -111,22 +119,26 @@ class _CartScreenState extends State<CartScreen> {
                               subtitle: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text('Rp ${cartItem['fields']['total_price']}'),
+                                  Text(
+                                      'Rp ${cartItem['fields']['total_price']}'),
                                   Row(
                                     children: [
                                       IconButton(
                                         icon: const Icon(Icons.remove),
                                         onPressed: () {
-                                          if (cartItem['fields']['quantity'] > 1) {
+                                          if (cartItem['fields']['quantity'] >
+                                              1) {
                                             updateCartQuantity(
                                               request,
                                               productId,
-                                              cartItem['fields']['quantity'] - 1,
+                                              cartItem['fields']['quantity'] -
+                                                  1,
                                             );
                                           }
                                         },
                                       ),
-                                      Text(cartItem['fields']['quantity'].toString()),
+                                      Text(cartItem['fields']['quantity']
+                                          .toString()),
                                       IconButton(
                                         icon: const Icon(Icons.add),
                                         onPressed: () {
@@ -143,7 +155,8 @@ class _CartScreenState extends State<CartScreen> {
                               ),
                               trailing: IconButton(
                                 icon: const Icon(Icons.delete),
-                                onPressed: () => removeCartItem(request, productId),
+                                onPressed: () =>
+                                    removeCartItem(request, productId),
                               ),
                             ),
                           );
