@@ -1,4 +1,5 @@
 import 'package:ajeg_mobile/screens/list_voucher.dart';
+import 'package:ajeg_mobile/screens/qna_page.dart';
 import 'package:flutter/material.dart';
 
 class LeftDrawer extends StatelessWidget {
@@ -54,6 +55,18 @@ class LeftDrawer extends StatelessWidget {
               title: Text('Wishlist'),
             ),
           ),
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const QnAPage()),
+              );
+            },
+            child: const ListTile(
+              leading: Icon(Icons.question_answer),
+              title: Text('QnA'),
+            ),
+          )
         ],
       ),
     );
