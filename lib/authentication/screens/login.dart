@@ -1,8 +1,7 @@
 import 'package:ajeg_mobile/screens/home.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-// import 'package:literasea_mobile/main.dart';
-// import 'package:literasea_mobile/screens/root_page.dart';
+import 'package:ajeg_mobile/screens/home_new.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
 
@@ -122,7 +121,7 @@ class _LoginPageState extends State<LoginPage> {
                           });
                           navigator.pushAndRemoveUntil(
                             MaterialPageRoute(
-                              builder: (context) => const HomeScreen(),
+                              builder: (context) => const MyHomePage(),
                             ),
                             (route) => false,
                           );
