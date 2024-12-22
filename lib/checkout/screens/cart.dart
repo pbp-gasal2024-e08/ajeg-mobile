@@ -13,10 +13,9 @@ class CartScreenState extends State<CartScreen> {
   List<dynamic> cartItems = [];
   bool isLoading = true;
 
-  void fetchCart(CookieRequest request) async {
+  Future<void> fetchCart(CookieRequest request) async {
     final response = await request.get('http://localhost:8000/get-cart/');
     if (response.statusCode == 200) {
-      print(response);
       final List<dynamic> data = (response.body);
       setState(() {
         cartItems = data;
@@ -32,6 +31,7 @@ class CartScreenState extends State<CartScreen> {
       CookieRequest request, int productId) async {
     final response = await request
         .get('http://localhost:8000/product/get-product/$productId/');
+    print("outside");
     if (response.statusCode == 200) {
       return (response.body);
     } else {
@@ -96,70 +96,75 @@ class CartScreenState extends State<CartScreen> {
     return Scaffold(
       appBar: AppBar(title: const Text('Cart')),
       body: cartItems.isEmpty
-          ? const Center(child: Text('Empty Cart'))
-          : ListView.builder(
-              itemCount: cartItems.length,
-              itemBuilder: (context, index) {
-                final cartItem = cartItems[index];
-                final productId = cartItem['fields']['product'];
+              ? const Center(child: Text('Empty Cart'))
+              : ListView.builder(
+                  itemCount: cartItems.length,
+                  itemBuilder: (context, index) {
+                    final cartItem = cartItems[index];
+                    final productId = cartItem['fields']['product'];
 
-                return FutureBuilder(
-                  future: fetchProduct(request, productId),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const CircularProgressIndicator();
-                    } else if (snapshot.hasError) {
-                      return const Text('Error loading product');
-                    } else {
-                      final product = snapshot.data;
-                      return Card(
-                        child: ListTile(
-                          title: Text(product!['fields']['name']),
-                          subtitle: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('Rp ${cartItem['fields']['total_price']}'),
-                              Row(
+                    return FutureBuilder(
+                      future: fetchProduct(request, productId),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const CircularProgressIndicator();
+                        } else if (snapshot.hasError) {
+                          return const Text('Error loading product');
+                        } else {
+                          final product = snapshot.data;
+                          return Card(
+                            child: ListTile(
+                              title: Text(product!['fields']['name']),
+                              subtitle: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  IconButton(
-                                    icon: const Icon(Icons.remove),
-                                    onPressed: () {
-                                      if (cartItem['fields']['quantity'] > 1) {
-                                        updateCartQuantity(
-                                          request,
-                                          productId,
-                                          cartItem['fields']['quantity'] - 1,
-                                        );
-                                      }
-                                    },
-                                  ),
-                                  Text(cartItem['fields']['quantity']
-                                      .toString()),
-                                  IconButton(
-                                    icon: const Icon(Icons.add),
-                                    onPressed: () {
-                                      updateCartQuantity(
-                                        request,
-                                        productId,
-                                        cartItem['fields']['quantity'] + 1,
-                                      );
-                                    },
+                                  Text(
+                                      'Rp ${cartItem['fields']['total_price']}'),
+                                  Row(
+                                    children: [
+                                      IconButton(
+                                        icon: const Icon(Icons.remove),
+                                        onPressed: () {
+                                          if (cartItem['fields']['quantity'] >
+                                              1) {
+                                            updateCartQuantity(
+                                              request,
+                                              productId,
+                                              cartItem['fields']['quantity'] -
+                                                  1,
+                                            );
+                                          }
+                                        },
+                                      ),
+                                      Text(cartItem['fields']['quantity']
+                                          .toString()),
+                                      IconButton(
+                                        icon: const Icon(Icons.add),
+                                        onPressed: () {
+                                          updateCartQuantity(
+                                            request,
+                                            productId,
+                                            cartItem['fields']['quantity'] + 1,
+                                          );
+                                        },
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),
-                            ],
-                          ),
-                          trailing: IconButton(
-                            icon: const Icon(Icons.delete),
-                            onPressed: () => removeCartItem(request, productId),
-                          ),
-                        ),
-                      );
-                    }
+                              trailing: IconButton(
+                                icon: const Icon(Icons.delete),
+                                onPressed: () =>
+                                    removeCartItem(request, productId),
+                              ),
+                            ),
+                          );
+                        }
+                      },
+                    );
                   },
-                );
-              },
-            ),
+                ),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Text('Total Price: Rp ${calculateTotalPrice()}'),
