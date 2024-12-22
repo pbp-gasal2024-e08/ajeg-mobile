@@ -15,8 +15,9 @@ class HomeScreen extends StatelessWidget {
             InkWell(
                 child: Column(children: [
                   FloatingPanel(
-                      color: Colors.deepOrange.shade100,
-                      text: "See All Products"),
+                    color: Colors.deepOrange.shade100,
+                    children: [const Text("See All Products")],
+                  )
                 ]),
                 onTap: () {
                   Navigator.push(

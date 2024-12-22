@@ -5,22 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 
-void main() {
-  runApp(const RatingApp());
-}
-
-class RatingApp extends StatelessWidget {
-  const RatingApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: Theme.of(context),
-      home: const RatingPanel(),
-    );
-  }
-}
-
 class RatingPanel extends StatefulWidget {
   const RatingPanel({super.key});
 
