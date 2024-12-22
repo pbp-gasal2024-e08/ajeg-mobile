@@ -1,7 +1,6 @@
 import 'package:ajeg_mobile/screens/add_announcement.dart';
 import 'package:flutter/material.dart';
 import 'package:ajeg_mobile/models/announcement.dart';
-import 'package:ajeg_mobile/widgets/left_drawer.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:ajeg_mobile/screens/edit_announcement.dart';
