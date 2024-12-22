@@ -1,11 +1,14 @@
 import 'dart:convert';
 
+import 'package:ajeg_mobile/products/models/product_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 
 class RatingPanel extends StatefulWidget {
-  const RatingPanel({super.key});
+  final ProductModel product;
+
+  const RatingPanel({super.key, required this.product});
 
   @override
   State<RatingPanel> createState() => _RatingPanelState();
@@ -13,28 +16,24 @@ class RatingPanel extends StatefulWidget {
 
 class _RatingPanelState extends State<RatingPanel> {
   int _rating = 0;
+  String _synopsis = '';
   String _comment = '';
 
   void submitReview(BuildContext context, CookieRequest request) async {
-    final response = await request.postJson(
-      "http://10.0.2.2:8000/review/",
+    await request.postJson(
+      "http://https://thorbert-anson-ajeg.pbp.cs.ui.ac.id/review/add-review/${widget.product.pk}",
       jsonEncode(<String, dynamic>{
-        'rating': _rating,
-        'comment': _comment,
+        'star_rating': _rating,
+        'synopsis': _synopsis,
+        'base_comment': _comment,
       }),
     );
 
     if (!context.mounted) return;
 
-    if (response.statusCode == 200) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Review submitted successfully!')),
-      );
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Failed to submit review.')),
-      );
-    }
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Review submitted successfully!')),
+    );
   }
 
   @override
@@ -59,6 +58,16 @@ class _RatingPanelState extends State<RatingPanel> {
                   },
                 ),
             ],
+          ),
+          TextField(
+            decoration: const InputDecoration(
+              hintText: 'Give us a short description',
+            ),
+            onChanged: (value) {
+              setState(() {
+                _synopsis = value;
+              });
+            },
           ),
           TextField(
             decoration: const InputDecoration(
