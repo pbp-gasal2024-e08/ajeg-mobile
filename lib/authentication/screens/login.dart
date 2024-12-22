@@ -121,7 +121,7 @@ class _LoginPageState extends State<LoginPage> {
                           });
                           navigator.pushAndRemoveUntil(
                             MaterialPageRoute(
-                              builder: (context) => const MyHomePage(),
+                              builder: (context) => const MyHomePage(title: ''),
                             ),
                             (route) => false,
                           );
