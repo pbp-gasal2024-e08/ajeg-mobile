@@ -1,43 +1,22 @@
 import 'dart:convert';
 
-import 'package:ajeg_mobile/screens/list_announcement.dart';
+import 'package:ajeg_mobile/announcement/screens/list_announcement.dart';
 import 'package:flutter/material.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:ajeg_mobile/widgets/left_drawer.dart';
-import 'package:ajeg_mobile/models/announcement.dart';
 
-class EditAnnouncementPage extends StatefulWidget {
-  final Announcement announcement;
-
-  const EditAnnouncementPage(this.announcement, {super.key});
+class AddAnnouncementPage extends StatefulWidget {
+  const AddAnnouncementPage({super.key});
 
   @override
-  State<EditAnnouncementPage> createState() => _EditAnnouncementPageState();
+  State<AddAnnouncementPage> createState() => _AddAnnouncementPageState();
 }
 
-class _EditAnnouncementPageState extends State<EditAnnouncementPage> {
+class _AddAnnouncementPageState extends State<AddAnnouncementPage> {
   final _formKey = GlobalKey<FormState>();
-  late String _id;
-  late TextEditingController _titleController;
-  late TextEditingController _descriptionController;
-
-  @override
-  void initState() {
-    super.initState();
-    _id = widget.announcement.pk;
-    _titleController =
-        TextEditingController(text: widget.announcement.fields.title);
-    _descriptionController =
-        TextEditingController(text: widget.announcement.fields.description);
-  }
-
-  @override
-  void dispose() {
-    _titleController.dispose();
-    _descriptionController.dispose();
-    super.dispose();
-  }
+  String _title = "";
+  String _description = "";
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +26,7 @@ class _EditAnnouncementPageState extends State<EditAnnouncementPage> {
       appBar: AppBar(
         title: const Center(
           child: Text(
-            'Form Mengedit Announcement',
+            'Form Membuat Announcement',
           ),
         ),
         backgroundColor: Colors.deepOrange,
@@ -63,9 +42,8 @@ class _EditAnnouncementPageState extends State<EditAnnouncementPage> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextFormField(
-                controller: _titleController,
                 decoration: InputDecoration(
-                  // hintText: "Title",
+                  hintText: "Title",
                   labelText: "Title",
                   floatingLabelStyle: const TextStyle(color: Colors.deepOrange),
                   border: OutlineInputBorder(
@@ -77,9 +55,9 @@ class _EditAnnouncementPageState extends State<EditAnnouncementPage> {
                   ),
                 ),
                 onChanged: (String? value) {
-                  // setState(() {
-                  //   _title = value!;
-                  // });
+                  setState(() {
+                    _title = value!;
+                  });
                 },
                 validator: (String? value) {
                   if (value == null || value.isEmpty) {
@@ -92,9 +70,8 @@ class _EditAnnouncementPageState extends State<EditAnnouncementPage> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextFormField(
-                controller: _descriptionController,
                 decoration: InputDecoration(
-                  // hintText: "Description",
+                  hintText: "Description",
                   labelText: "Description",
                   floatingLabelStyle: const TextStyle(color: Colors.deepOrange),
                   border: OutlineInputBorder(
@@ -106,9 +83,9 @@ class _EditAnnouncementPageState extends State<EditAnnouncementPage> {
                   ),
                 ),
                 onChanged: (String? value) {
-                  // setState(() {
-                  //   _description = value!;
-                  // });
+                  setState(() {
+                    _description = value!;
+                  });
                 },
                 validator: (String? value) {
                   if (value == null || value.isEmpty) {
@@ -130,17 +107,18 @@ class _EditAnnouncementPageState extends State<EditAnnouncementPage> {
                     if (_formKey.currentState!.validate()) {
                       // Kirim ke Django dan tunggu respons
                       final response = await request.postJson(
-                        "http://127.0.0.1:8000/announcement/edit-flutter/$_id",
+                        "http://127.0.0.1:8000/announcement/create-flutter/",
                         jsonEncode(<String, String>{
-                          'title': _titleController.text,
-                          'description': _descriptionController.text,
+                          'title': _title,
+                          'description': _description,
+                          'store': '1',
                         }),
                       );
                       if (context.mounted) {
                         if (response['status'] == 'success') {
                           ScaffoldMessenger.of(context)
                               .showSnackBar(const SnackBar(
-                            content: Text("Announcement berhasil diupdate!"),
+                            content: Text("Announcement baru berhasil dibuat!"),
                           ));
                           Navigator.pushReplacement(
                             context,

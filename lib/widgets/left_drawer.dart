@@ -1,7 +1,7 @@
 import 'package:ajeg_mobile/screens/list_voucher.dart';
 import 'package:ajeg_mobile/screens/qna_page.dart';
 import 'package:flutter/material.dart';
-import 'package:ajeg_mobile/screens/list_announcement.dart';
+import 'package:ajeg_mobile/announcement/screens/list_announcement.dart';
 
 class LeftDrawer extends StatelessWidget {
   const LeftDrawer({super.key});
