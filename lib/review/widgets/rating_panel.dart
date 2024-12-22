@@ -5,6 +5,22 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 
+void main() {
+  runApp(const RatingApp());
+}
+
+class RatingApp extends StatelessWidget {
+  const RatingApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      theme: Theme.of(context),
+      home: const RatingPanel(),
+    );
+  }
+}
+
 class RatingPanel extends StatefulWidget {
   const RatingPanel({super.key});
 
@@ -18,7 +34,7 @@ class _RatingPanelState extends State<RatingPanel> {
 
   void submitReview(BuildContext context, CookieRequest request) async {
     final response = await request.postJson(
-      "http://10.0.2.2:8000/reviews",
+      "http://10.0.2.2:8000/review/",
       jsonEncode(<String, dynamic>{
         'rating': _rating,
         'comment': _comment,
@@ -41,41 +57,46 @@ class _RatingPanelState extends State<RatingPanel> {
   @override
   Widget build(BuildContext context) {
     final request = context.watch<CookieRequest>();
-    return Column(
-      children: [
-        Row(
-          children: [
-            for (int i = 1; i <= 5; i++)
-              IconButton(
-                icon: Icon(
-                  i <= _rating ? Icons.star : Icons.star_border,
-                  color: Colors.amber,
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              for (int i = 1; i <= 5; i++)
+                IconButton(
+                  icon: Icon(
+                    i <= _rating ? Icons.star : Icons.star_border,
+                    color: Colors.amber,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      _rating = i;
+                    });
+                  },
                 ),
-                onPressed: () {
-                  setState(() {
-                    _rating = i;
-                  });
-                },
-              ),
-          ],
-        ),
-        TextField(
-          decoration: const InputDecoration(
-            hintText: 'Enter your comment',
+            ],
           ),
-          onChanged: (value) {
-            setState(() {
-              _comment = value;
-            });
-          },
-        ),
-        ElevatedButton(
-          onPressed: () {
-            submitReview(context, request);
-          },
-          child: const Text('Submit'),
-        ),
-      ],
+          TextField(
+            decoration: const InputDecoration(
+              hintText: 'Enter your comment',
+            ),
+            onChanged: (value) {
+              setState(() {
+                _comment = value;
+              });
+            },
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              final response =
+                  await request.get("http://127.0.0.1:8000/review/");
+              print(response);
+            },
+            child: const Text('Submit'),
+          ),
+        ],
+      ),
     );
   }
 }
