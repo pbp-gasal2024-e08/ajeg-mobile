@@ -16,7 +16,7 @@ class HomeScreen extends StatelessWidget {
                 child: Column(children: [
                   FloatingPanel(
                     color: Colors.deepOrange.shade100,
-                    children: [const Text("See All Products")],
+                    children: const [Text("See All Products")],
                   )
                 ]),
                 onTap: () {
@@ -67,7 +67,7 @@ class FloatingPanel extends StatelessWidget {
         ],
       ),
       child: Center(
-        child: this.children,
+        child: children,
       ),
     );
   }

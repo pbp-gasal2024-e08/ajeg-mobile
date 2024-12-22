@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:ajeg_mobile/checkout/screens/cart.dart';
 import 'package:ajeg_mobile/products/screens/traveller.dart';
 import 'package:ajeg_mobile/screens/list_announcement.dart';
@@ -7,8 +5,6 @@ import 'package:ajeg_mobile/screens/list_voucher.dart';
 import 'package:ajeg_mobile/screens/qna_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -59,8 +55,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => CartScreen()
-                            ),
+                                builder: (context) => const CartScreen()),
                           );
                         },
                         style: ElevatedButton.styleFrom(
@@ -107,270 +102,254 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                        Container(
-                        padding: const EdgeInsets.only(
-                            right: 20.0, left: 20.0, bottom: 15.0),
-                        height: 130,
-                        width: double.infinity,
-                        child: Material(
-                          color: Colors.white,
-                          child: InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const ProductPage()
+                  Container(
+                    padding: const EdgeInsets.only(
+                        right: 20.0, left: 20.0, bottom: 15.0),
+                    height: 130,
+                    width: double.infinity,
+                    child: Material(
+                      color: Colors.white,
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const ProductPage()),
+                          );
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.orangeAccent,
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 32.0),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Katalog",
+                                      style: GoogleFonts.inter(
+                                        fontSize: 22,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    Text(
+                                      "Lihat semua item disini",
+                                      style: GoogleFonts.inter(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w300,
+                                        color: Colors.white,
+                                      ),
+                                    )
+                                  ],
                                 ),
-                              );
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.orangeAccent,
-                                borderRadius: BorderRadius.circular(20),
                               ),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 32.0),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          "Katalog",
-                                          style: GoogleFonts.inter(
-                                            fontSize: 22,
-                                            fontWeight: FontWeight.w600,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                        Text(
-                                          "Lihat semua item disini",
-                                          style: GoogleFonts.inter(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w300,
-                                            color: Colors.white,
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 10.0),
-                                    child: Icon(
-                                      Icons.food_bank,
-                                      color: Colors.white,
-                                      size: 40,
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
+                              const Padding(
+                                padding: EdgeInsets.only(right: 10.0),
+                                child: Icon(
+                                  Icons.food_bank,
+                                  color: Colors.white,
+                                  size: 40,
+                                ),
+                              )
+                            ],
                           ),
                         ),
                       ),
-                        Container(
-                        padding: const EdgeInsets.only(
-                            right: 20.0, left: 20.0, bottom: 15.0),
-                        height: 130,
-                        width: double.infinity,
-                        child: Material(
-                          color: Colors.white,
-                          child: InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => AnnouncementPage()
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.only(
+                        right: 20.0, left: 20.0, bottom: 15.0),
+                    height: 130,
+                    width: double.infinity,
+                    child: Material(
+                      color: Colors.white,
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const AnnouncementPage()),
+                          );
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.orangeAccent,
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 32.0),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Annoucements",
+                                      style: GoogleFonts.inter(
+                                        fontSize: 22,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    Text(
+                                      "Lihat announcement toko disini",
+                                      style: GoogleFonts.inter(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w300,
+                                        color: Colors.white,
+                                      ),
+                                    )
+                                  ],
                                 ),
-                              );
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.orangeAccent,
-                                borderRadius: BorderRadius.circular(30),
                               ),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 32.0),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          "Annoucements",
-                                          style: GoogleFonts.inter(
-                                            fontSize: 22,
-                                            fontWeight: FontWeight.w600,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                        Text(
-                                          "Lihat announcement toko disini",
-                                          style: GoogleFonts.inter(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w300,
-                                            color: Colors.white,
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 10.0),
-                                    child: Icon(
-                                      Icons.announcement,
-                                      color: Colors.white,
-                                      size: 40,
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
+                              const Padding(
+                                padding: EdgeInsets.only(right: 10.0),
+                                child: Icon(
+                                  Icons.announcement,
+                                  color: Colors.white,
+                                  size: 40,
+                                ),
+                              )
+                            ],
                           ),
                         ),
                       ),
-                        Container(
-                        padding: const EdgeInsets.only(
-                            right: 20.0, left: 20.0, bottom: 15.0),
-                        height: 130,
-                        width: double.infinity,
-                        child: Material(
-                          color: Colors.white,
-                          child: InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => QnAPage()
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.only(
+                        right: 20.0, left: 20.0, bottom: 15.0),
+                    height: 130,
+                    width: double.infinity,
+                    child: Material(
+                      color: Colors.white,
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const QnAPage()),
+                          );
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.orangeAccent,
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 32.0),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "QnA",
+                                      style: GoogleFonts.inter(
+                                        fontSize: 22,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    Text(
+                                      "Lihat QnA product",
+                                      style: GoogleFonts.inter(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w300,
+                                        color: Colors.white,
+                                      ),
+                                    )
+                                  ],
                                 ),
-                              );
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.orangeAccent,
-                                borderRadius: BorderRadius.circular(30),
                               ),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 32.0),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          "QnA",
-                                          style: GoogleFonts.inter(
-                                            fontSize: 22,
-                                            fontWeight: FontWeight.w600,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                        Text(
-                                          "Lihat QnA product",
-                                          style: GoogleFonts.inter(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w300,
-                                            color: Colors.white,
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 10.0),
-                                    child: Icon(
-                                      Icons.question_answer,
-                                      color: Colors.white,
-                                      size: 40,
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
+                              const Padding(
+                                padding: EdgeInsets.only(right: 10.0),
+                                child: Icon(
+                                  Icons.question_answer,
+                                  color: Colors.white,
+                                  size: 40,
+                                ),
+                              )
+                            ],
                           ),
                         ),
                       ),
-                        Container(
-                        padding: const EdgeInsets.only(
-                            right: 20.0, left: 20.0, bottom: 15.0),
-                        height: 130,
-                        width: double.infinity,
-                        child: Material(
-                          color: Colors.white,
-                          child: InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => VoucherPage()
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.only(
+                        right: 20.0, left: 20.0, bottom: 15.0),
+                    height: 130,
+                    width: double.infinity,
+                    child: Material(
+                      color: Colors.white,
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const VoucherPage()),
+                          );
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.orangeAccent,
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 32.0),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Vouchers",
+                                      style: GoogleFonts.inter(
+                                        fontSize: 22,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    Text(
+                                      "Lihat vouchers untuk diskon disini",
+                                      style: GoogleFonts.inter(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w300,
+                                        color: Colors.white,
+                                      ),
+                                    )
+                                  ],
                                 ),
-                              );
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.orangeAccent,
-                                borderRadius: BorderRadius.circular(30),
                               ),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 32.0),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          "Vouchers",
-                                          style: GoogleFonts.inter(
-                                            fontSize: 22,
-                                            fontWeight: FontWeight.w600,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                        Text(
-                                          "Lihat vouchers untuk diskon disini",
-                                          style: GoogleFonts.inter(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w300,
-                                            color: Colors.white,
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 10.0),
-                                    child: Icon(
-                                      Icons.discount,
-                                      color: Colors.white,
-                                      size: 40,
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
+                              const Padding(
+                                padding: EdgeInsets.only(right: 10.0),
+                                child: Icon(
+                                  Icons.discount,
+                                  color: Colors.white,
+                                  size: 40,
+                                ),
+                              )
+                            ],
                           ),
                         ),
                       ),
+                    ),
+                  ),
                   const SizedBox(height: 20),
                   // New Books Section
                 ],
