@@ -11,49 +11,37 @@ String announcementToJson(List<Announcement> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class Announcement {
-  String model;
   String pk;
-  Fields fields;
-
-  Announcement({
-    required this.model,
-    required this.pk,
-    required this.fields,
-  });
-
-  factory Announcement.fromJson(Map<String, dynamic> json) => Announcement(
-        model: json["model"],
-        pk: json["pk"],
-        fields: Fields.fromJson(json["fields"]),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "model": model,
-        "pk": pk,
-        "fields": fields.toJson(),
-      };
-}
-
-class Fields {
   String title;
   String description;
   int store;
+  String storeName;
+  bool isOwner;
 
-  Fields({
+  Announcement({
+    required this.pk,
     required this.title,
     required this.description,
     required this.store,
+    required this.storeName,
+    required this.isOwner,
   });
 
-  factory Fields.fromJson(Map<String, dynamic> json) => Fields(
+  factory Announcement.fromJson(Map<String, dynamic> json) => Announcement(
+        pk: json["pk"],
         title: json["title"],
         description: json["description"],
         store: json["store"],
+        storeName: json["storeName"],
+        isOwner: json["isOwner"],
       );
 
   Map<String, dynamic> toJson() => {
+        "pk": pk,
         "title": title,
         "description": description,
         "store": store,
+        "storeName": storeName,
+        "isOwner": isOwner,
       };
 }
