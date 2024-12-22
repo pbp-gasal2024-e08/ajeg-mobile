@@ -10,20 +10,20 @@ void main() {
   runApp(const MainApp());
 }
 
-class UserInfo {
-  static bool loggedIn = true;
-  static Map<String, dynamic> data = {};
+// class UserInfo {
+//   static bool loggedIn = true;
+//   static Map<String, dynamic> data = {};
 
-  static void login(Map<String, dynamic> data) {
-    loggedIn = true;
-    UserInfo.data = data;
-  }
+//   static void login(Map<String, dynamic> data) {
+//     loggedIn = true;
+//     UserInfo.data = data;
+//   }
 
-  static void logout() {
-    loggedIn = false;
-    data = {};
-  }
-}
+//   static void logout() {
+//     loggedIn = false;
+//     data = {};
+//   }
+// }
 
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
