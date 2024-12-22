@@ -15,9 +15,10 @@ class AnnouncementPage extends StatefulWidget {
 
 class _AnnouncementPageState extends State<AnnouncementPage> {
   List<Announcement> _announcements = [];
+  bool _isMerchant = false;
 
   Future<List<Announcement>> fetchAnnouncement(CookieRequest request) async {
-    final response =
+    var response =
         await request.get('http://localhost:8000/announcement/get-flutter/');
 
     // Decode response into JSON
@@ -30,6 +31,7 @@ class _AnnouncementPageState extends State<AnnouncementPage> {
         listAnnouncement.add(Announcement.fromJson(d));
       }
     }
+
     setState(() {
       _announcements = listAnnouncement;
     });
@@ -61,11 +63,20 @@ class _AnnouncementPageState extends State<AnnouncementPage> {
     }
   }
 
+  Future<void> fetchIsMerchant(CookieRequest request) async {
+    final response = await request
+        .get('http://localhost:8000/announcement/is-merchant-flutter/');
+    setState(() {
+      _isMerchant = response['isMerchant'];
+    });
+  }
+
   @override
   void initState() {
     super.initState();
     final request = context.read<CookieRequest>();
     fetchAnnouncement(request);
+    fetchIsMerchant(request);
   }
 
   @override
@@ -78,18 +89,19 @@ class _AnnouncementPageState extends State<AnnouncementPage> {
       drawer: const LeftDrawer(),
       body: Column(
         children: [
-          ElevatedButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const AddAnnouncementPage(),
-                ),
-              );
-            },
-            child: const Text('Tambah Announcement',
-                style: TextStyle(color: Colors.deepOrangeAccent)),
-          ),
+          if (_isMerchant)
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const AddAnnouncementPage(),
+                  ),
+                );
+              },
+              child: const Text('Tambah Announcement',
+                  style: TextStyle(color: Colors.deepOrangeAccent)),
+            ),
           const SizedBox(height: 10),
           Expanded(
             child: _announcements.isEmpty
